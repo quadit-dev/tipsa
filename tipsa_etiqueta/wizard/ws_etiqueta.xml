@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+<data>
+
+
+    <!--======FORM VIEW ======-->
+    <record id="ws_etiqueta" model="ir.ui.view">
+        <field name="name">ws.etiqueta.form</field>
+        <field name="model">ws.etiqueta</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Etiqueta" width="500">
+               <header>
+               </header>
+               <sheet>
+                    <separator colspan="4" string="Etiqueta TIPSA"/>
+                    <group col="2" >
+
+                        <field name="agencia" />
+                        <field name="albaran" required="1"/>
+                        <field name="id_reporte" required="1"/>
+                        <field name="formato" required="1"/>
+                        <field name="bulto_desde" required="1"/>
+                        <field name="bulto_hasta" required="1"/>
+                        <field name="posicion_ini" required="1"/>
+                        <field name="opcion" required="1"/>
+
+                    </group>
+
+                </sheet>
+                <footer >
+
+                    <center>
+
+                        <button name="genera_etiqueta"
+                          string="Generar Etiqueta" type="object"
+                          icon="gtk-execute"/>
+                        <button string="Cancelar" class="oe_link"
+                          special="cancel" icon="gtk-cancel"/>
+                    </center>
+                </footer>
+
+            </form>
+            </field>
+        </record>
+
+
+    <!--=================ACCION ASISTENTE==================-->
+    <act_window
+        name="Generar etiqueta TIPSA"
+        res_model="ws.etiqueta"
+        src_model="stock.picking"
+        view_mode="form" target="new"
+        key2="client_action_multi"
+        id="action_ws_etiqueta"/>
+
+</data>
+</openerp>

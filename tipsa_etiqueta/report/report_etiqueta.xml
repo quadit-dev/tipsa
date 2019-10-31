@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <template id="template_report_etiqueta">
+                  <t t-call="report.html_container">
+                      <t t-foreach="docs" t-as="o">
+                          <t t-call="report.external_layout">
+                              <div class="page">
+
+                          </div>
+                          </t>
+                      </t>
+                  </t>
+        </template>
+
+        <report
+            id="etiqueta_report" string="Etiqueta de envio"
+            model="ws.etiqueta" report_type="qweb-pdf"
+            file="service_web_integracion.template_report_etiqueta"
+            name="service_web_integracion.template_report_etiqueta"
+        />
+    </data>
+</openerp>
