@@ -12,8 +12,6 @@ class tipsa_servicio(models.Model):
     agencia = fields.Char('Agencia')
     user = fields.Char('Usuario', required=True)
     password = fields.Char('Contraseña', required=True)
-    opcion = fields.Selection([('Etiqueta','Generar Etiqueta')],
-        'Opcion', required=True)
 
 
 

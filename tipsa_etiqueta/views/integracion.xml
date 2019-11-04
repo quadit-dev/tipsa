@@ -29,7 +29,6 @@
                                 <field name="agencia" />
                                 <field name="user" />
                                 <field name="password" password="True" />
-                                <field name="opcion" />
 
                             </group>
 

@@ -6,6 +6,10 @@ from requests.auth import HTTPBasicAuth  # or HTTPDigestAuth, or OAuth1, etc.
 from suds.transport.http import HttpAuthenticated
 from suds.client import Client
 import base64
+from lxml import etree, objectify
+from xml.dom import minidom
+from xml.etree.ElementTree import XML, fromstring, tostring, parse
+
 
 
 class res_partner(models.Model):
@@ -76,11 +80,15 @@ class ws_etiqueta(models.Model):
         response_met = requests.post(url_met,data=body_met,headers=headers_met)
         metodo = response_met.content
         print ("---------------->",ID)
-        print metodo
-        pdf_etiqueta = base64.decodestring(metodo)
+        # parse an xml file by na
+        myxml = fromstring(metodo)
+        for element in myxml.iter():
+            etiqueta = element.findtext('{http://tempuri.org/}strEtiqueta')
+            if etiqueta:
+                pdf = etiqueta
+        pdf_etiqueta = base64.decodestring(pdf)
+        print pdf_etiqueta
         return pdf_etiqueta
-
-
 
 
 

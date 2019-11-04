@@ -16,8 +16,8 @@
         <report
             id="etiqueta_report" string="Etiqueta de envio"
             model="ws.etiqueta" report_type="qweb-pdf"
-            file="service_web_integracion.template_report_etiqueta"
-            name="service_web_integracion.template_report_etiqueta"
+            file="tipsa_etiqueta.template_report_etiqueta"
+            name="tipsa_etiqueta.template_report_etiqueta"
         />
     </data>
 </openerp>
