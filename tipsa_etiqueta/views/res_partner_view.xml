@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+<data>
+    <record id="res_partner_registro" model="ir.ui.view">
+            <field name="name">res.partner.registro</field>
+            <field name="model">res.partner</field>
+            <field name="type">form</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <group  position="inside">
+                    <field name="codigo_tipsa" />
+                </group>
+            </field>
+    </record>
+</data>
+</openerp>
