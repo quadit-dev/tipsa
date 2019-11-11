@@ -62,7 +62,8 @@ class ws_etiqueta(models.Model):
         picking_id = self.env['stock.picking'].browse(active_id)
         partner_id = self.env['stock.picking'].browse(picking_id.partner_id)
 
-        print "######### res >>>>>>>> ", res, partner_id
+        print "######### res >>>>>>>> ", res
+        print ("-------------",partner_id)
         print "######### res >>>>>>>> ", active_id
         objres = self.env['res.partner'].search([('id','=',
                 18)])
