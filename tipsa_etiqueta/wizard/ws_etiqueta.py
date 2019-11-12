@@ -60,20 +60,17 @@ class ws_etiqueta(models.Model):
         res = super(ws_etiqueta,self).default_get(values)
         active_id = self._context.get('active_ids')
         picking_id = self.env['stock.picking'].browse(active_id)
-        partner_id = self.env['stock.picking'].browse(picking_id.partner_id)
-
         print "######### res >>>>>>>> ", res
-        print ("-------------",partner_id)
         print "######### res >>>>>>>> ", active_id
-        objres = self.env['res.partner'].search([('id','=',
-                18)])
-        print objres.name
         cont_cntres = 0
+        partner = self.env['stock.picking'].browse(picking_id.partner_id)
+        objres = self.env['res.partner'].search([('id','=',partner.id.ids)])
+        print ("-------------",partner)
+        print ("-------------",partner.id.ids)
         for picking in picking_id:
 
-
             res.update({
-                'agencia_des':picking.name
+                'agencia_des':objres.name
                 })
         return res
 
