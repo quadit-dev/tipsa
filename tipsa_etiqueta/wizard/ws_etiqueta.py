@@ -43,12 +43,22 @@ class ws_etiqueta(models.Model):
     _name = 'ws.etiqueta'
     _description = 'Datos para etiqueta'
     opcion = fields.Many2one('tipsa.servicio',string="Opcion")
-    agencia_ori = fields.Many2one('res.partner', string="Agencia Origen")
-    NomDes = fields.Char('Destino', required =True)
-    TipoViaDes = fields.Char('Tipo de vía del destinatario.', required =True)
     dtm_envio = fields.Datetime ('Fecha envio',
         readonly = False,
         select = True )
+    agencia_ori = fields.Many2one('res.partner', string="Agencia Origen")
+    #DATOS DEL DESTINO ------------
+    NomDes = fields.Char('Destino', required =True)
+    DirDes = fields.Char('Direccion')
+    NumDes = fields.Char('Número de casa')
+    PisDes = fields.Char('Número de piso')
+    PobDes = fields.Char('Población')
+    CPDes = fields.Char('Código postal')
+    TlfDes = fields.Char('Telefono')
+    CodProDes = fields.Char('Código provincial')
+    TipoViaDes = fields.Char('Tipo de vía del destinatario.', required =True)
+    #-----------------------
+    #Datos etiqueta -----------------
     formato = fields.Selection([('233','PDF'),
         ('226','TXT')],default="233")
     bulto_desde = fields.Char('Bulto desde')
@@ -65,7 +75,14 @@ class ws_etiqueta(models.Model):
         objres = self.env['res.partner'].search([('id','=',partner.id.ids)])
         for picking in picking_id:
             res.update({
-                'agencia_des':objres.name
+                'NomDes':objres.name,
+                'DirDes':objres.street,
+                'NumDes':objres.num_home,
+                'PisDes':objres.num_piso,
+                'PobDes':objres.city,
+                'CPDes':objres.zip,
+                'TlfDes':objres.phone,
+                'CodProDes':objres.codigo_provin
                 })
         return res
 
@@ -148,9 +165,57 @@ class ws_etiqueta(models.Model):
         login = response.content
         ID = login[368:404]
         print login
-        print ("---------------------->",ID)
+        print ("---------------------->",self.dtm_envio)
+        url_met = self.opcion.url_accion
+        headers_met = {'content-type': 'text/xml'}
+        body_met =  """<?xml version="1.0" encoding="utf-8"?>
+            <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+                    <soap:Header>
+                        <ROClientIDHeader xmlns="http://tempuri.org/">
+                            <ID>"""+ID+"""</ID>
+                        </ROClientIDHeader>
+                    </soap:Header>
+                    <soap:Body>
+                     <WebServService___GrabaEnvio18 xmlns="http://tempuri.org/">
+                        <strCodAgeCargo>000000</strCodAgeCargo>
+                        <strCodAgeOri>000000</strCodAgeOri>
+                        <dtFecha>2019/11/30</dtFecha>
+                        <strCodAgeDes>000000</strCodAgeDes>
+                        <strCodTipoServ>14</strCodTipoServ>
+                        <strCodCli>33333</strCodCli>
+                        <strCodCliDep>15483</strCodCliDep>
+                        <strNomOri>"""+self.agencia_ori.name+"""</strNomOri>
+                        <strTipoViaOri></strTipoViaOri>
+                        <strDirOri>"""+self.agencia_ori.street+"""</strDirOri>
+                        <strNumOri>"""+self.agencia_ori.num_home+"""</strNumOri>
+                        <strPisoOri>"""+self.agencia_ori.num_piso+"""</strPisoOri>
+                        <strPobOri>"""+self.agencia_ori.city+"""</strPobOri>
+                        <strCPOri>"""+self.agencia_ori.zip+"""</strCPOri>
+                        <strCodProOri>"""+self.agencia_ori.codigo_provin+"""</strCodProOri>
+                        <strTlfOri>"""+self.agencia_ori.phone+"""</strTlfOri>
+                        <strNomDes>"""+self.NomDes+"""</strNomDes>
+                        <strTipoViaDes>--TipoVia-destinatario--</strTipoViaDes>
+                        <strDirDes>"""+self.DirDes+"""</strDirDes>
+                        <strNumDes>"""+self.NumDes+"""</strNumDes>
+                        <strPisoDes>"""+self.PisDes+"""</strPisoDes>
+                        <strPobDes>"""+self.PobDes+"""</strPobDes>
+                        <strCPDes>"""+self.CPDes+"""</strCPDes>
+                        <strCodProDes>"""+self.CodProDes+"""</strCodProDes>
+                        <strTlfDes>"""+self.TlfDes+"""</strTlfDes>
+                        <intPaq>--paquetes--</intPaq>
+                        <strPersContacto>--persona-contacto--</strPersContacto>
+                        <boDesSMS>--sms-destinatario--</boDesSMS>
+                        <boDesEmail>--email-destinatario--</boDesEmail>
+                        <strDesDirEmails>--email-destinatario--</strDesDirEmails>
+                        <boInsert>--insert--</boInsert>
 
-        print "-------------------Hola"
+                     </WebServService___GrabaEnvio18>
+                    </soap:Body>
+            </soap:Envelope>"""
+        print body_met
+        return ID
 
 
     @api.multi

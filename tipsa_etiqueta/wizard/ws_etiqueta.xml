@@ -21,18 +21,24 @@
 
                         <field name="agencia_ori" />
                         <field name="dtm_envio" />
-                        <field name="NomDes" readonly="1"/>
-                        <field name="TipoViaDes" />
+
+
                     </group>
+                    <group col="4">
+                            <field name="NomDes" readonly="1" />
+                            <field name="DirDes" readonly="1" />
+                            <field name="NumDes" readonly="1" />
+                            <field name="PisDes" readonly="1" />
+                            <field name="PobDes" readonly="1" />
+                            <field name="CPDes" readonly="1" />
+                            <field name="TlfDes" readonly="1" />
+                            <field name="CodProDes" readonly="1" />
+                            <field name="TipoViaDes"/>
+                        </group>
                     <separator colspan="4" string="Etiqueta TIPSA"/>
                     <group col="2" >
 
                         <field name="formato" required="1"/>
-                        <field name="bulto_desde" required="1"/>
-                        <field name="bulto_hasta" required="1"/>
-                        <field name="posicion_ini" required="1"/>
-
-
                     </group>
 
                 </sheet>
