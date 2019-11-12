@@ -5,3 +5,6 @@ class res_partner(models.Model):
     _name = 'res.partner'
     _inherit = 'res.partner'
     codigo_tipsa = fields.Char('Codigo Tipsa')
+    num_home = fields.Char()
+    num_piso = fields.Char()
+    codigo_provin = fields.Char()

@@ -44,7 +44,8 @@ class ws_etiqueta(models.Model):
     _description = 'Datos para etiqueta'
     opcion = fields.Many2one('tipsa.servicio',string="Opcion")
     agencia_ori = fields.Many2one('res.partner', string="Agencia Origen")
-    agencia_des = fields.Char('Destino', required =True)
+    NomDes = fields.Char('Destino', required =True)
+    TipoViaDes = fields.Char('Tipo de vía del destinatario.', required =True)
     dtm_envio = fields.Datetime ('Fecha envio',
         readonly = False,
         select = True )
@@ -60,19 +61,14 @@ class ws_etiqueta(models.Model):
         res = super(ws_etiqueta,self).default_get(values)
         active_id = self._context.get('active_ids')
         picking_id = self.env['stock.picking'].browse(active_id)
-        print "######### res >>>>>>>> ", res
-        print "######### res >>>>>>>> ", active_id
-        cont_cntres = 0
         partner = self.env['stock.picking'].browse(picking_id.partner_id)
         objres = self.env['res.partner'].search([('id','=',partner.id.ids)])
-        print ("-------------",partner)
-        print ("-------------",partner.id.ids)
         for picking in picking_id:
-
             res.update({
                 'agencia_des':objres.name
                 })
         return res
+
 
     @api.multi
     def genera_etiqueta(self):
@@ -159,6 +155,7 @@ class ws_etiqueta(models.Model):
 
     @api.multi
     def genera_envio_etiqueta(self):
+        albaran = self.genera_envio()
         print "HOLA"
 
 

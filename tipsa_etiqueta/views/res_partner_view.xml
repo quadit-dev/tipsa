@@ -7,7 +7,21 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
+                 <xpath expr = "// field [@ name = 'street2']" position = "after">
+
+                               <field name="num_home" placeholder="Numero de casa..."
+                                class="o_address_street"
+                                attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                               <field name="num_piso" placeholder="Numero de piso..."
+                                class="o_address_street"
+                                attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                               <field name="codigo_provin" placeholder="Código provincia..."
+                                class="o_address_street"
+                                attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" />
+
+                </xpath>
                 <group  position="inside">
+
                     <field name="codigo_tipsa" />
                 </group>
             </field>
