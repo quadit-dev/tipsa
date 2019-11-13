@@ -105,7 +105,7 @@ class ws_etiqueta(models.Model):
 
 
     @api.multi
-    def genera_etiqueta(self):
+    def genera_etiqueta(self,albaran):
         url = self.opcion.url_login
         file = fields.Binary('Layout')
         headers = {'content-type': 'text/xml'}
@@ -142,7 +142,7 @@ class ws_etiqueta(models.Model):
         <soap:Body>
             <WebServService___ConsEtiquetaEnvio6>
                 <strCodAgeOri>"""+self.opcion.agencia+"""</strCodAgeOri>
-                <strAlbaran>9999154669</strAlbaran>
+                <strAlbaran>"""+albaran+"""</strAlbaran>
                 <intIdRepDet>233</intIdRepDet>
                 <strFormato>PDF</strFormato>
             </WebServService___ConsEtiquetaEnvio6>
@@ -242,17 +242,23 @@ class ws_etiqueta(models.Model):
         print ("---------------->",metodo)
         # parse an xml file by na
         myxml = fromstring(metodo)
+        list = []
         for element in myxml.iter():
+            etiqueta = element.findtext('{http://tempuri.org/}strAlbaranOut')
+            if etiqueta:
+                albaran = etiqueta
+                print albaran
             print element
 
         print myxml
 
-        return ID
+        return albaran
 
 
     @api.multi
     def genera_envio_etiqueta(self):
-        pdf = self.genera_etiqueta()
+        albaran = self.genera_envio()
+        pdf = self.genera_etiqueta(albaran)
         self.write({
                         'file': base64.b64encode(pdf),
                         'datas_fname': 'Etiqueta.pdf',

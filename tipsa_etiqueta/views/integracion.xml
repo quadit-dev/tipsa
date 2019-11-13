@@ -48,7 +48,7 @@
 
 
             <menuitem id="id_principal_inte"
-                name="Integración TIPSA" />
+                name="TIPSA" />
 
             <menuitem id="id_menu_inte" parent="id_principal_inte"
                 name="Servicio" sequence="0" />
