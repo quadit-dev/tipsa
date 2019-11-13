@@ -47,7 +47,7 @@ class ws_etiqueta(models.Model):
         readonly = False,
         select = True)
     agencia_ori = fields.Many2one('res.partner', string="Agencia Origen")
-    #DATOS DEL DESTINO ------------
+    #DATOS DEL DESTINO ------------------------------
     NomDes = fields.Char('Destino', required =True)
     DirDes = fields.Char('Direccion')
     NumDes = fields.Char('Número de casa')
@@ -61,13 +61,24 @@ class ws_etiqueta(models.Model):
     TipoViaDes = fields.Char('Tipo de vía del destinatario.', required =True)
     Paq = fields.Char('Número de paquetes')
     PersContacto = fields.Char('Persona de contacto')
-    #-----------------------
-    #Datos etiqueta -----------------
+    #------------------------------------------------
+    #Datos etiqueta ---------------------------------
     formato = fields.Selection([('233','PDF'),
         ('226','TXT')],default="233")
     bulto_desde = fields.Char('Bulto desde')
     bulto_hasta = fields.Char('Bulto hasta')
     posicion_ini = fields.Char('Posicion inicial')
+    #------------------------------------------------
+    #Descargar para etiqueta ------------------------
+    file = fields.Binary('Layout')
+    download_file = fields.Boolean('Descargar Archivo')
+    cadena_decoding = fields.Text('Binario sin encoding')
+    datas_fname = fields.Char('File Name', size=256)
+
+    _defaults = {
+        'download_file': False,
+        'type': 'pdf',
+    }
 
     @api.model
     def default_get(self,values):
@@ -131,7 +142,7 @@ class ws_etiqueta(models.Model):
         <soap:Body>
             <WebServService___ConsEtiquetaEnvio6>
                 <strCodAgeOri>"""+self.opcion.agencia+"""</strCodAgeOri>
-                <strAlbaran>9999136065</strAlbaran>
+                <strAlbaran>9999154669</strAlbaran>
                 <intIdRepDet>233</intIdRepDet>
                 <strFormato>PDF</strFormato>
             </WebServService___ConsEtiquetaEnvio6>
@@ -147,7 +158,9 @@ class ws_etiqueta(models.Model):
             etiqueta = element.findtext('{http://tempuri.org/}strEtiqueta')
             if etiqueta:
                 pdf = etiqueta
-                print pdf
+        final = base64.decodestring(pdf)
+        print final
+        return final
 
     @api.multi
     def genera_envio(self):
@@ -175,8 +188,9 @@ class ws_etiqueta(models.Model):
          #split de fecha creacion
         split_envio = self.dtm_envio.split('-')
         split_envio_dia = split_envio[2].split(' ')
-        date_envio = split_envio[0]+"/"+split_envio[1]+"/"+split_envio_dia[0]  # noqa
+        date_envio = split_envio[0]+'/'+split_envio[1]+'/'+split_envio_dia[0]  # noqa
         url_met = self.opcion.url_accion
+        print ("---------------------->",date_envio)
         headers_met = {'content-type': 'text/xml'}
         body_met =  """<?xml version="1.0" encoding="utf-8"?>
             <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
@@ -184,7 +198,7 @@ class ws_etiqueta(models.Model):
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema">
                     <soap:Header>
                         <ROClientIDHeader xmlns="http://tempuri.org/">
-                            <ID>"""+ID+"""</ID>
+                            <ID>{"""+ID+"""}</ID>
                         </ROClientIDHeader>
                     </soap:Header>
                     <soap:Body>
@@ -195,7 +209,7 @@ class ws_etiqueta(models.Model):
                         <strCodAgeDes>000000</strCodAgeDes>
                         <strCodTipoServ>14</strCodTipoServ>
                         <strCodCli>33333</strCodCli>
-                        <strCodCliDep>15483</strCodCliDep>
+                        <strCodCliDep>33333</strCodCliDep>
                         <strNomOri>"""+self.agencia_ori.name+"""</strNomOri>
                         <strDirOri>"""+self.agencia_ori.street+"""</strDirOri>
                         <strNumOri>"""+self.agencia_ori.num_home+"""</strNumOri>
@@ -229,8 +243,8 @@ class ws_etiqueta(models.Model):
         # parse an xml file by na
         myxml = fromstring(metodo)
         for element in myxml.iter():
-            etiqueta = element.findtext('{http://tempuri.org/}strEtiqueta')
-            print etiqueta
+            print element
+
         print myxml
 
         return ID
@@ -238,8 +252,21 @@ class ws_etiqueta(models.Model):
 
     @api.multi
     def genera_envio_etiqueta(self):
-        albaran = self.genera_envio()
+        pdf = self.genera_etiqueta()
+        self.write({
+                        'file': base64.b64encode(pdf),
+                        'datas_fname': 'Etiqueta.pdf',
+                        'download_file': True})
         print "HOLA"
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'ws.etiqueta',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_id': self.id,
+            'views': [(False, 'form')],
+            'target': 'new',
+        }
 
 
 

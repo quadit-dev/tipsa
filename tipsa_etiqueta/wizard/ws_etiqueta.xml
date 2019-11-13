@@ -11,6 +11,7 @@
         <field name="arch" type="xml">
             <form string="Etiqueta" width="500">
                <header>
+                <field name="download_file" invisible="1" />
                </header>
                <sheet>
                     <separator colspan="4" string="Envio TIPSA"/>
@@ -45,7 +46,22 @@
                     </group>
 
                 </sheet>
-                <footer >
+                <sheet attrs="{'invisible':[('download_file','=',False)]}">
+                    <div >
+                        <h2>Generacion Completa</h2>
+                        <p>Descarga el Documento: <field
+                          name="file" readonly="1" filename="datas_fname"/></p>
+                        <p> Documento Generado (PDF - .pdf)</p>
+                    </div>
+                </sheet>
+                <footer attrs="{'invisible':[('download_file','=',False)]}">
+                    <center>
+
+                        <button string="Cerrar" special="cancel"
+                          icon="gtk-cancel" class="oe_highlight"/>
+                    </center>
+                </footer>
+                <footer attrs="{'invisible':[('download_file','=',True)]}">
 
                     <center>
 
