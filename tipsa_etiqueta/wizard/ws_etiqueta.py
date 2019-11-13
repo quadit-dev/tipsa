@@ -45,7 +45,7 @@ class ws_etiqueta(models.Model):
     opcion = fields.Many2one('tipsa.servicio',string="Opcion")
     dtm_envio = fields.Datetime ('Fecha envio',
         readonly = False,
-        select = True )
+        select = True)
     agencia_ori = fields.Many2one('res.partner', string="Agencia Origen")
     #DATOS DEL DESTINO ------------
     NomDes = fields.Char('Destino', required =True)
@@ -56,7 +56,11 @@ class ws_etiqueta(models.Model):
     CPDes = fields.Char('Código postal')
     TlfDes = fields.Char('Telefono')
     CodProDes = fields.Char('Código provincial')
+    CodDes = fields.Char('Código Destino')
+    EmailDes = fields.Char('Email Destino')
     TipoViaDes = fields.Char('Tipo de vía del destinatario.', required =True)
+    Paq = fields.Char('Número de paquetes')
+    PersContacto = fields.Char('Persona de contacto')
     #-----------------------
     #Datos etiqueta -----------------
     formato = fields.Selection([('233','PDF'),
@@ -76,12 +80,14 @@ class ws_etiqueta(models.Model):
         for picking in picking_id:
             res.update({
                 'NomDes':objres.name,
+                'CodDes':objres.codigo_tipsa,
                 'DirDes':objres.street,
                 'NumDes':objres.num_home,
                 'PisDes':objres.num_piso,
                 'PobDes':objres.city,
                 'CPDes':objres.zip,
                 'TlfDes':objres.phone,
+                'EmailDes':objres.email,
                 'CodProDes':objres.codigo_provin
                 })
         return res
@@ -166,6 +172,10 @@ class ws_etiqueta(models.Model):
         ID = login[368:404]
         print login
         print ("---------------------->",self.dtm_envio)
+         #split de fecha creacion
+        split_envio = self.dtm_envio.split('-')
+        split_envio_dia = split_envio[2].split(' ')
+        date_envio = split_envio[0]+"/"+split_envio[1]+"/"+split_envio_dia[0]  # noqa
         url_met = self.opcion.url_accion
         headers_met = {'content-type': 'text/xml'}
         body_met =  """<?xml version="1.0" encoding="utf-8"?>
@@ -179,15 +189,14 @@ class ws_etiqueta(models.Model):
                     </soap:Header>
                     <soap:Body>
                      <WebServService___GrabaEnvio18 xmlns="http://tempuri.org/">
-                        <strCodAgeCargo>000000</strCodAgeCargo>
-                        <strCodAgeOri>000000</strCodAgeOri>
-                        <dtFecha>2019/11/30</dtFecha>
+                        <strCodAgeCargo>"""+self.agencia_ori.codigo_tipsa+"""</strCodAgeCargo>
+                        <strCodAgeOri>"""+self.agencia_ori.codigo_tipsa+"""</strCodAgeOri>
+                        <dtFecha>"""+date_envio+"""</dtFecha>
                         <strCodAgeDes>000000</strCodAgeDes>
                         <strCodTipoServ>14</strCodTipoServ>
                         <strCodCli>33333</strCodCli>
                         <strCodCliDep>15483</strCodCliDep>
                         <strNomOri>"""+self.agencia_ori.name+"""</strNomOri>
-                        <strTipoViaOri></strTipoViaOri>
                         <strDirOri>"""+self.agencia_ori.street+"""</strDirOri>
                         <strNumOri>"""+self.agencia_ori.num_home+"""</strNumOri>
                         <strPisoOri>"""+self.agencia_ori.num_piso+"""</strPisoOri>
@@ -196,7 +205,6 @@ class ws_etiqueta(models.Model):
                         <strCodProOri>"""+self.agencia_ori.codigo_provin+"""</strCodProOri>
                         <strTlfOri>"""+self.agencia_ori.phone+"""</strTlfOri>
                         <strNomDes>"""+self.NomDes+"""</strNomDes>
-                        <strTipoViaDes>--TipoVia-destinatario--</strTipoViaDes>
                         <strDirDes>"""+self.DirDes+"""</strDirDes>
                         <strNumDes>"""+self.NumDes+"""</strNumDes>
                         <strPisoDes>"""+self.PisDes+"""</strPisoDes>
@@ -204,17 +212,27 @@ class ws_etiqueta(models.Model):
                         <strCPDes>"""+self.CPDes+"""</strCPDes>
                         <strCodProDes>"""+self.CodProDes+"""</strCodProDes>
                         <strTlfDes>"""+self.TlfDes+"""</strTlfDes>
-                        <intPaq>--paquetes--</intPaq>
-                        <strPersContacto>--persona-contacto--</strPersContacto>
-                        <boDesSMS>--sms-destinatario--</boDesSMS>
-                        <boDesEmail>--email-destinatario--</boDesEmail>
-                        <strDesDirEmails>--email-destinatario--</strDesDirEmails>
-                        <boInsert>--insert--</boInsert>
-
+                        <intPaq>"""+self.Paq+"""</intPaq>
+                        <strPersContacto>"""+self.PersContacto+"""</strPersContacto>
+                        <boDesSMS>0</boDesSMS>
+                        <boDesEmail>1</boDesEmail>
+                        <strDesDirEmails>"""+self.EmailDes+"""</strDesDirEmails>
+                        <boInsert>1</boInsert>
                      </WebServService___GrabaEnvio18>
                     </soap:Body>
             </soap:Envelope>"""
         print body_met
+        response_met = requests.post(url_met,data=body_met,headers=headers_met)
+        metodo = response_met.content
+        print ("---------------->",ID)
+        print ("---------------->",metodo)
+        # parse an xml file by na
+        myxml = fromstring(metodo)
+        for element in myxml.iter():
+            etiqueta = element.findtext('{http://tempuri.org/}strEtiqueta')
+            print etiqueta
+        print myxml
+
         return ID
 
 
