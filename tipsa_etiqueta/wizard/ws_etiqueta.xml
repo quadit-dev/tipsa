@@ -68,9 +68,6 @@
                         <button name="genera_envio_etiqueta"
                           string="Generar Etiqueta" type="object"
                           icon="gtk-execute"/>
-                          <button name="genera_envio"
-                          string="Envio" type="object"
-                          icon="gtk-execute"/>
                         <button string="Cancelar" class="oe_link"
                           special="cancel" icon="gtk-cancel"/>
                     </center>
