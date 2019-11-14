@@ -12,9 +12,10 @@
             <form string="Etiqueta" width="500">
                <header>
                 <field name="download_file" invisible="1" />
+
                </header>
                <sheet>
-                    <separator colspan="4" string="Envio TIPSA"/>
+                    <separator colspan="2" string="Envio TIPSA"/>
                     <group col="2">
                         <field name="opcion" required="1"/>
                     </group>
@@ -85,7 +86,8 @@
         src_model="stock.picking"
         view_mode="form" target="new"
         key2="client_action_multi"
-        id="action_ws_etiqueta"/>
+        id="action_ws_etiqueta"
+        />
 
 </data>
 </openerp>

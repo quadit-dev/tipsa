@@ -18,6 +18,7 @@
     'data': [
     'views/integracion.xml',
     'views/res_partner_view.xml',
+    'views/stock_picking_view.xml',
     'wizard/ws_etiqueta.xml',
     'report/report_etiqueta.xml'
     ],

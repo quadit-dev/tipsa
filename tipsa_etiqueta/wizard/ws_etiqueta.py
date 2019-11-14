@@ -89,6 +89,7 @@ class ws_etiqueta(models.Model):
         partner = self.env['stock.picking'].browse(picking_id.partner_id)
         objres = self.env['res.partner'].search([('id','=',partner.id.ids)])
         for picking in picking_id:
+            print ("-------------",picking.state_env)
             res.update({
                 'NomDes':objres.name,
                 'CodDes':objres.codigo_tipsa,
@@ -264,6 +265,10 @@ class ws_etiqueta(models.Model):
                         'datas_fname': 'Etiqueta.pdf',
                         'download_file': True})
         print "HOLA"
+        active_id = self._context.get('active_ids')
+        print active_id
+        stock = self.env['stock.picking'].browse(active_id)
+        stock_ids = stock.cambia_estado()
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'ws.etiqueta',
