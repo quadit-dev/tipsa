@@ -4,7 +4,7 @@
 
 
     <!--======FORM VIEW ======-->
-    <record id="ws_etiqueta" model="ir.ui.view">
+    <record id="ws_etiqueta" model="ir.ui.view" >
         <field name="name">ws.etiqueta.form</field>
         <field name="model">ws.etiqueta</field>
         <field name="type">form</field>
@@ -38,7 +38,7 @@
                             <field name="EmailDes" readonly="1" />
                             <field name="CodProDes" readonly="1" />
                             <field name="PersContacto" required="1"/>
-                            <field name="TipoViaDes"/>
+                            <field name="TipoViaDes" readonly="1"/>
                         </group>
                     <separator colspan="4" string="Etiqueta TIPSA"/>
                     <group col="2" >

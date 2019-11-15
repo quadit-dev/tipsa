@@ -9,6 +9,7 @@ import base64
 from lxml import etree, objectify
 from xml.dom import minidom
 from datetime import datetime
+from openerp.exceptions import UserError, ValidationError
 from xml.etree.ElementTree import XML, fromstring, tostring, parse
 
 
@@ -89,7 +90,8 @@ class ws_etiqueta(models.Model):
         partner = self.env['stock.picking'].browse(picking_id.partner_id)
         objres = self.env['res.partner'].search([('id','=',partner.id.ids)])
         for picking in picking_id:
-            print ("-------------",picking.state_env)
+            if picking.state_env == 'posted':
+                raise ValidationError(_('[-] No se puede crear etiqueta. Envio y Etiqueta realizados'))
             res.update({
                 'NomDes':objres.name,
                 'CodDes':objres.codigo_tipsa,
@@ -100,13 +102,18 @@ class ws_etiqueta(models.Model):
                 'CPDes':objres.zip,
                 'TlfDes':objres.phone,
                 'EmailDes':objres.email,
-                'CodProDes':objres.codigo_provin
+                'CodProDes':objres.codigo_provin,
+                'TipoViaDes':objres.TipoVia
                 })
         return res
 
 
     @api.multi
     def genera_etiqueta(self,albaran):
+        if self.formato == '233':
+            form_c= 'PDF'
+        else:
+            form_c = 'TXT'
         url = self.opcion.url_login
         file = fields.Binary('Layout')
         headers = {'content-type': 'text/xml'}
@@ -126,8 +133,6 @@ class ws_etiqueta(models.Model):
         response = requests.post(url,data=body,headers=headers)
         login = response.content
         ID = login[368:404]
-        print login
-        print ("---------------------->",ID)
         url_met = self.opcion.url_accion
         headers_met = {'content-type': 'text/xml'}
         body_met =  """<?xml version="1.0" encoding="utf-8"?>
@@ -144,15 +149,13 @@ class ws_etiqueta(models.Model):
             <WebServService___ConsEtiquetaEnvio6>
                 <strCodAgeOri>"""+self.opcion.agencia+"""</strCodAgeOri>
                 <strAlbaran>"""+albaran+"""</strAlbaran>
-                <intIdRepDet>233</intIdRepDet>
-                <strFormato>PDF</strFormato>
+                <intIdRepDet>"""+self.formato+"""</intIdRepDet>
+                <strFormato>"""+form_c+"""</strFormato>
             </WebServService___ConsEtiquetaEnvio6>
         </soap:Body>
         </soap:Envelope>"""
         response_met = requests.post(url_met,data=body_met,headers=headers_met)
         metodo = response_met.content
-        print ("---------------->",ID)
-        print ("---------------->",metodo)
         # parse an xml file by na
         myxml = fromstring(metodo)
         for element in myxml.iter():
@@ -160,7 +163,6 @@ class ws_etiqueta(models.Model):
             if etiqueta:
                 pdf = etiqueta
         final = base64.decodestring(pdf)
-        print final
         return final
 
     @api.multi
@@ -184,14 +186,10 @@ class ws_etiqueta(models.Model):
         response = requests.post(url,data=body,headers=headers)
         login = response.content
         ID = login[368:404]
-        print login
-        print ("---------------------->",self.dtm_envio)
-         #split de fecha creacion
         split_envio = self.dtm_envio.split('-')
         split_envio_dia = split_envio[2].split(' ')
         date_envio = split_envio[0]+'/'+split_envio[1]+'/'+split_envio_dia[0]  # noqa
         url_met = self.opcion.url_accion
-        print ("---------------------->",date_envio)
         headers_met = {'content-type': 'text/xml'}
         body_met =  """<?xml version="1.0" encoding="utf-8"?>
             <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
@@ -207,11 +205,10 @@ class ws_etiqueta(models.Model):
                         <strCodAgeCargo>"""+self.agencia_ori.codigo_tipsa+"""</strCodAgeCargo>
                         <strCodAgeOri>"""+self.agencia_ori.codigo_tipsa+"""</strCodAgeOri>
                         <dtFecha>"""+date_envio+"""</dtFecha>
-                        <strCodAgeDes>000000</strCodAgeDes>
                         <strCodTipoServ>14</strCodTipoServ>
-                        <strCodCli>33333</strCodCli>
-                        <strCodCliDep>33333</strCodCliDep>
+                        <strCodCli>"""+self.agencia_ori.codigo_tipsa+"""</strCodCli>
                         <strNomOri>"""+self.agencia_ori.name+"""</strNomOri>
+                        <strTipoViaOri>"""+self.agencia_ori.TipoVia+"""</strTipoViaOri>
                         <strDirOri>"""+self.agencia_ori.street+"""</strDirOri>
                         <strNumOri>"""+self.agencia_ori.num_home+"""</strNumOri>
                         <strPisoOri>"""+self.agencia_ori.num_piso+"""</strPisoOri>
@@ -220,6 +217,7 @@ class ws_etiqueta(models.Model):
                         <strCodProOri>"""+self.agencia_ori.codigo_provin+"""</strCodProOri>
                         <strTlfOri>"""+self.agencia_ori.phone+"""</strTlfOri>
                         <strNomDes>"""+self.NomDes+"""</strNomDes>
+                        <strTipoViaDes>"""+self.TipoViaDes+"""</strTipoViaDes>
                         <strDirDes>"""+self.DirDes+"""</strDirDes>
                         <strNumDes>"""+self.NumDes+"""</strNumDes>
                         <strPisoDes>"""+self.PisDes+"""</strPisoDes>
@@ -236,22 +234,13 @@ class ws_etiqueta(models.Model):
                      </WebServService___GrabaEnvio18>
                     </soap:Body>
             </soap:Envelope>"""
-        print body_met
         response_met = requests.post(url_met,data=body_met,headers=headers_met)
         metodo = response_met.content
-        print ("---------------->",ID)
-        print ("---------------->",metodo)
-        # parse an xml file by na
         myxml = fromstring(metodo)
-        list = []
         for element in myxml.iter():
             etiqueta = element.findtext('{http://tempuri.org/}strAlbaranOut')
             if etiqueta:
                 albaran = etiqueta
-                print albaran
-            print element
-
-        print myxml
 
         return albaran
 
@@ -264,7 +253,6 @@ class ws_etiqueta(models.Model):
                         'file': base64.b64encode(pdf),
                         'datas_fname': 'Etiqueta.pdf',
                         'download_file': True})
-        print "HOLA"
         active_id = self._context.get('active_ids')
         print active_id
         stock = self.env['stock.picking'].browse(active_id)
