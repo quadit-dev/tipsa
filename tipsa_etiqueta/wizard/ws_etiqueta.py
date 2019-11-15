@@ -83,7 +83,6 @@ class ws_etiqueta(models.Model):
 
     @api.model
     def default_get(self,values):
-        print("########## VALUES ", values)
         res = super(ws_etiqueta,self).default_get(values)
         active_id = self._context.get('active_ids')
         picking_id = self.env['stock.picking'].browse(active_id)
