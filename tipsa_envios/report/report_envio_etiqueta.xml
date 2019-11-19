@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <template id="template_report_env_etiqueta">
+                  <t t-call="report.html_container">
+                      <t t-foreach="docs" t-as="o">
+                          <t t-call="report.external_layout">
+                              <div class="page">
+                                <field name="file"/>
+                          </div>
+                          </t>
+                      </t>
+                  </t>
+        </template>
+
+        <report
+            id="etiqueta_env_report" string="Etiqueta de envio"
+            model="envio.tipsa" report_type="qweb-pdf"
+            file="tipsa_envio.template_report_env_etiqueta"
+            name="tipsa_envio.template_report_env_etiqueta"
+        />
+    </data>
+</openerp>

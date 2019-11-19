@@ -44,6 +44,7 @@ class ws_etiqueta(models.Model):
     _name = 'ws.etiqueta'
     _description = 'Datos para etiqueta'
     opcion = fields.Many2one('tipsa.servicio',string="Opcion")
+    name_env =fields.Char('Nombre envio')
     dtm_envio = fields.Datetime ('Fecha envio',
         readonly = False,
         select = True)
@@ -77,8 +78,7 @@ class ws_etiqueta(models.Model):
     datas_fname = fields.Char('File Name', size=256)
 
     _defaults = {
-        'download_file': False,
-        'type': 'pdf',
+        'download_file': False
     }
 
     @api.model
@@ -92,6 +92,7 @@ class ws_etiqueta(models.Model):
             if picking.state_env == 'posted':
                 raise ValidationError(_('[-] No se puede crear etiqueta. Envio y Etiqueta realizados'))
             res.update({
+                'name_env': picking.name,
                 'NomDes':objres.name,
                 'CodDes':objres.codigo_tipsa,
                 'DirDes':objres.street,
@@ -162,6 +163,7 @@ class ws_etiqueta(models.Model):
             if etiqueta:
                 pdf = etiqueta
         final = base64.decodestring(pdf)
+
         return final
 
     @api.multi
@@ -244,6 +246,7 @@ class ws_etiqueta(models.Model):
         return albaran
 
 
+
     @api.multi
     def genera_envio_etiqueta(self):
         albaran = self.genera_envio()
@@ -256,6 +259,19 @@ class ws_etiqueta(models.Model):
         print active_id
         stock = self.env['stock.picking'].browse(active_id)
         stock_ids = stock.cambia_estado()
+        env_tipsa = self.env['envio.tipsa']
+        envio = env_tipsa.create({
+                'name': self.name_env,
+                'albaran': albaran,
+                'agencia_ori': self.agencia_ori.name,
+                'agencia_des': self.NomDes,
+                'paq': self.Paq,
+                'file': self.file,
+                'datas_fname': self.datas_fname,
+                'dtm_envio': self.dtm_envio,
+                })
+
+
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'ws.etiqueta',
@@ -264,6 +280,8 @@ class ws_etiqueta(models.Model):
             'res_id': self.id,
             'views': [(False, 'form')],
             'target': 'new',
+
+
         }
 
 

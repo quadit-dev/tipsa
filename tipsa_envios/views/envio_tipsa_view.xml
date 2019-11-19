@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="tree_tipsa_inte">
+                 <field name="name">envio.tipsa.tree</field>
+                 <field name="model">envio.tipsa</field>
+                 <field name="type">tree</field>
+                 <field name="arch" type="xml">
+                     <tree string="Envio">
+                          <field name="name" />
+                     </tree>
+                 </field>
+        </record>
+        <record model="ir.ui.view" id="tipsa_int_form">
+                <field name="name">envio.tipsa.form</field>
+                <field name="model">envio.tipsa</field>
+                <field name="type">form</field>
+                <field name="arch" type="xml">
+                    <form string="Envios Realizados">
+
+                        <header>
+                        </header>
+                        <sheet>
+
+                            <group col="4">
+                                <field name="albaran" readonly="1"/>
+                                <field name="agencia_ori" readonly="1"/>
+                                <field name="agencia_des" readonly="1"/>
+                                <field name="paq" readonly="1"/>
+                                <field name="dtm_envio" readonly="1"/>
+                                <field name="file" filename="datas_fname"/>
+
+                            </group>
+
+                        </sheet>
+
+
+                 </form>
+             </field>
+            </record>
+
+        <record model="ir.actions.act_window"
+            id="act_tipsa_env">
+            <field name="name">TIPSA</field>
+            <field name="res_model">envio.tipsa</field>
+            <field name="view_mode">tree,form</field>
+            </record>
+
+
+            <menuitem id="id_principal_env"
+                name="ENVIOS TIPSA" />
+
+            <menuitem id="id_menu_env" parent="id_principal_env"
+                name="Envios" sequence="0" />
+
+            <menuitem id="id_menu_env_act" parent="id_menu_env"
+                name="Envios" action="act_tipsa_env"
+                sequence="0" />
+
+
+
+    </data>
+</openerp>
