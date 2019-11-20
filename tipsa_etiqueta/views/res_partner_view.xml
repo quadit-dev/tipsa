@@ -22,10 +22,7 @@
                     attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" />
 
                 </xpath>
-                <group  position="inside">
 
-                    <field name="codigo_tipsa" />
-                </group>
             </field>
     </record>
 </data>

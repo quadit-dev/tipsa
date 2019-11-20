@@ -67,9 +67,8 @@ class ws_etiqueta(models.Model):
     #Datos etiqueta ---------------------------------
     formato = fields.Selection([('233','PDF'),
         ('226','TXT')],default="233")
-    bulto_desde = fields.Char('Bulto desde')
-    bulto_hasta = fields.Char('Bulto hasta')
     posicion_ini = fields.Char('Posicion inicial')
+    peso = fields.Float('Peso')
     #------------------------------------------------
     #Descargar para etiqueta ------------------------
     file = fields.Binary('Layout')
@@ -94,7 +93,6 @@ class ws_etiqueta(models.Model):
             res.update({
                 'name_env': picking.name,
                 'NomDes':objres.name,
-                'CodDes':objres.codigo_tipsa,
                 'DirDes':objres.street,
                 'NumDes':objres.num_home,
                 'PisDes':objres.num_piso,
@@ -103,7 +101,8 @@ class ws_etiqueta(models.Model):
                 'TlfDes':objres.phone,
                 'EmailDes':objres.email,
                 'CodProDes':objres.codigo_provin,
-                'TipoViaDes':objres.TipoVia
+                'TipoViaDes':objres.TipoVia,
+                'peso':picking.weight,
                 })
         return res
 
@@ -187,6 +186,7 @@ class ws_etiqueta(models.Model):
         response = requests.post(url,data=body,headers=headers)
         login = response.content
         ID = login[368:404]
+        print ("............------>", self.peso)
         split_envio = self.dtm_envio.split('-')
         split_envio_dia = split_envio[2].split(' ')
         date_envio = split_envio[0]+'/'+split_envio[1]+'/'+split_envio_dia[0]  # noqa
@@ -197,17 +197,17 @@ class ws_etiqueta(models.Model):
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema">
                     <soap:Header>
-                        <ROClientIDHeader xmlns="http://tempuri.org/">
+                        <ROClientIDHeader xmlnsopcion="http://tempuri.org/">
                             <ID>{"""+ID+"""}</ID>
                         </ROClientIDHeader>
                     </soap:Header>
                     <soap:Body>
                      <WebServService___GrabaEnvio18 xmlns="http://tempuri.org/">
-                        <strCodAgeCargo>"""+self.agencia_ori.codigo_tipsa+"""</strCodAgeCargo>
-                        <strCodAgeOri>"""+self.agencia_ori.codigo_tipsa+"""</strCodAgeOri>
+                        <strCodAgeCargo>"""+self.opcion.agencia+"""</strCodAgeCargo>
+                        <strCodAgeOri>"""+self.opcion.agencia+"""</strCodAgeOri>
                         <dtFecha>"""+date_envio+"""</dtFecha>
                         <strCodTipoServ>14</strCodTipoServ>
-                        <strCodCli>"""+self.agencia_ori.codigo_tipsa+"""</strCodCli>
+                        <strCodCli>"""+self.opcion.agencia+"""</strCodCli>
                         <strNomOri>"""+self.agencia_ori.name+"""</strNomOri>
                         <strTipoViaOri>"""+self.agencia_ori.TipoVia+"""</strTipoViaOri>
                         <strDirOri>"""+self.agencia_ori.street+"""</strDirOri>
@@ -227,6 +227,7 @@ class ws_etiqueta(models.Model):
                         <strCodProDes>"""+self.CodProDes+"""</strCodProDes>
                         <strTlfDes>"""+self.TlfDes+"""</strTlfDes>
                         <intPaq>"""+self.Paq+"""</intPaq>
+                        <dPesoOri>"""+str(self.peso)+"""</dPesoOri>
                         <strPersContacto>"""+self.PersContacto+"""</strPersContacto>
                         <boDesSMS>0</boDesSMS>
                         <boDesEmail>1</boDesEmail>
@@ -242,7 +243,7 @@ class ws_etiqueta(models.Model):
             etiqueta = element.findtext('{http://tempuri.org/}strAlbaranOut')
             if etiqueta:
                 albaran = etiqueta
-
+        print metodo
         return albaran
 
 
