@@ -9,8 +9,6 @@
         'mail',
         'sale',
         'purchase',
-        'tqn_partnerdiscount',
-        'shipping_eci_corte_ingles',
     ],
     'author': 'Quadit, S.A. de C.V.',
     'description': 'Integración de TIPSA',

@@ -50,7 +50,7 @@
             <menuitem id="id_principal_inte"
                 name="TIPSA" />
 
-            <menuitem id="id_menu_inte" parent="id_principal_inte"
+            <menuitem id="id_menu_inte" parent="stock.menu_stock_config_settings"
                 name="Servicio" sequence="0" />
 
             <menuitem id="id_menu_inte_act" parent="id_menu_inte"

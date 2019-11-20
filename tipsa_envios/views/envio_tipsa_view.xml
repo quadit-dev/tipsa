@@ -50,7 +50,7 @@
             <menuitem id="id_principal_env"
                 name="ENVIOS TIPSA" />
 
-            <menuitem id="id_menu_env" parent="id_principal_env"
+            <menuitem id="id_menu_env" parent="stock.menu_stock_config_settings"
                 name="Envios" sequence="0" />
 
             <menuitem id="id_menu_env_act" parent="id_menu_env"
