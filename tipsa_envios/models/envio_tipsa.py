@@ -16,6 +16,12 @@ class envio_tipsa(models.Model):
     paq = fields.Char('Número de paquetes')
     datas_fname = fields.Char('File Name', size=256)
 
+class servicio_tipsa(models.Model):
+    _name = 'servicio.tipsa'
+    _description = 'Servicios Tipsa'
+    name = fields.Char('Nombre del servicio')
+    codigo = fields.Char('Codigo del servicio')
+
 
 
 

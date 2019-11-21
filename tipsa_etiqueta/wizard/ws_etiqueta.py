@@ -12,6 +12,10 @@ from datetime import datetime
 from openerp.exceptions import UserError, ValidationError
 from xml.etree.ElementTree import XML, fromstring, tostring, parse
 
+class servicio_tipsa(models.Model):
+    _name = 'servicio.tipsa'
+    _inherit = 'servicio.tipsa'
+
 
 class StockMove(models.Model):
     _name = 'stock.move'
@@ -48,7 +52,8 @@ class ws_etiqueta(models.Model):
     dtm_envio = fields.Datetime ('Fecha envio',
         readonly = False,
         select = True)
-    agencia_ori = fields.Many2one('res.partner', string="Agencia Origen")
+    agencia_ori = fields.Many2one('res.partner', string="Remitente")
+    serv_tipsa = fields.Many2one('servicio.tipsa', string="Tipo de servicio")
     #DATOS DEL DESTINO ------------------------------
     NomDes = fields.Char('Destino', required =True)
     DirDes = fields.Char('Direccion')
