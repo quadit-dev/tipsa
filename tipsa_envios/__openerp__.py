@@ -15,7 +15,8 @@
     'website': 'https://www.quadit.mx',
     'data': [
     'views/envio_tipsa_view.xml',
-    'report/report_envio_etiqueta.xml'
+    'report/report_envio_etiqueta.xml',
+    'data/servicio.tipsa.csv'
     ],
     'demo': [],
     'installable': True
