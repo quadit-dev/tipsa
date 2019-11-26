@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_envio_tipsa,export.envio.tipsa,model_envio_tipsa,tipsa_envios.group_manager_tipsa_env,1,1,1,0
+access_servicio_tipsa,export.servicio.tipsa,model_servicio_tipsa,tipsa_envios.group_manager_tipsa_env,1,1,1,0

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+<!--         <record model="ir.module.category" id="module_management">
+            <field name="name">Demo module access</field>
+            <field name="description">User access level for this module</field>
+            <field name="sequence">3</field>
+        </record> -->
+
+        <!-- grupo complejo de control para odoo aqui mismo se añaden usuarios y otros grupos por defecto -->
+<!--         <record id="group_user_ediversa" model="res.groups">
+            <field name="name">User</field>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="category_id" ref="ediversa_factura.group_user"/>
+        </record>
+ -->
+        <!-- grupo básico de control cuando creas un grupo normalmente solo con el nombre basta checa: -->
+    <record id="group_manager_tipsa_env" model="res.groups">
+        <field name="name">Tipsa envio manager</field>
+    </record>
+
+
+    </data>
+</openerp>

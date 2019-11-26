@@ -17,6 +17,8 @@
     'description': 'Integración de TIPSA',
     'website': 'https://www.quadit.mx',
     'data': [
+    'security/tipsa_etiqueta_security.xml',
+    'security/ir.model.access.csv',
     'views/integracion.xml',
     'views/res_partner_view.xml',
     'views/stock_picking_view.xml',

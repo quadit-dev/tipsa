@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tipsa_servicio,export.tipsa.servicio,model_tipsa_servicio,tipsa_etiqueta.group_manager_tipsa_et,1,1,1,0
+access_ws_etiqueta,export.ws.etiqueta,model_ws_etiqueta,tipsa_etiqueta.group_manager_tipsa_et,1,1,1,0

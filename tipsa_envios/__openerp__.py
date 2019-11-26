@@ -14,9 +14,11 @@
     'description': 'Integración de TIPSA',
     'website': 'https://www.quadit.mx',
     'data': [
+    'security/tipsa_envios_security.xml',
+    'security/ir.model.access.csv',
     'views/envio_tipsa_view.xml',
     'report/report_envio_etiqueta.xml',
-    'data/servicio.tipsa.csv'
+    'data/servicio.tipsa.csv',
     ],
     'demo': [],
     'installable': True
