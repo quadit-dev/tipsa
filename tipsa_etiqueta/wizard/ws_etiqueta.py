@@ -54,7 +54,7 @@ class ws_etiqueta(models.Model):
         select = True)
     agencia_ori = fields.Many2one('res.partner', string="Remitente")
     serv_tipsa = fields.Many2one('servicio.tipsa', string="Tipo de servicio")
-    #DATOS DEL DESTINO ------------------------------
+            #DATOS DEL DESTINO ------------------------------
     NomDes = fields.Char('Destino', required =True)
     DirDes = fields.Char('Direccion')
     NumDes = fields.Char('Número de casa')
@@ -108,6 +108,8 @@ class ws_etiqueta(models.Model):
                 'CodProDes':objres.codigo_provin,
                 'TipoViaDes':objres.TipoVia,
                 'peso':picking.weight,
+                'PersContacto':objres.name,
+                'Paq':picking.number_of_packages,
                 })
         return res
 
@@ -192,6 +194,7 @@ class ws_etiqueta(models.Model):
         login = response.content
         ID = login[368:404]
         print ("............------>", self.peso)
+        print ("............------>", self.serv_tipsa.codigo)
         split_envio = self.dtm_envio.split('-')
         split_envio_dia = split_envio[2].split(' ')
         date_envio = split_envio[0]+'/'+split_envio[1]+'/'+split_envio_dia[0]  # noqa
@@ -211,7 +214,7 @@ class ws_etiqueta(models.Model):
                         <strCodAgeCargo>"""+self.opcion.agencia+"""</strCodAgeCargo>
                         <strCodAgeOri>"""+self.opcion.agencia+"""</strCodAgeOri>
                         <dtFecha>"""+date_envio+"""</dtFecha>
-                        <strCodTipoServ>14</strCodTipoServ>
+                        <strCodTipoServ>"""+self.serv_tipsa.codigo+"""</strCodTipoServ>
                         <strCodCli>"""+self.opcion.agencia+"""</strCodCli>
                         <strNomOri>"""+self.agencia_ori.name+"""</strNomOri>
                         <strTipoViaOri>"""+self.agencia_ori.TipoVia+"""</strTipoViaOri>

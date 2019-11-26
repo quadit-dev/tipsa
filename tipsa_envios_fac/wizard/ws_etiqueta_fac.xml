@@ -5,8 +5,8 @@
 
     <!--======FORM VIEW ======-->
     <record id="ws_etiqueta" model="ir.ui.view" >
-        <field name="name">ws.etiqueta.form</field>
-        <field name="model">ws.etiqueta</field>
+        <field name="name">ws.etiqueta.fac.form</field>
+        <field name="model">ws.etiqueta.fac</field>
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Etiqueta" width="500">
@@ -21,7 +21,14 @@
                     </group>
                     <group col="4" >
 
-                        <field name="agencia_ori" required="1"/>
+                        <field name="agencia_ori" readonly="1"/>
+                         <field name="DirOri" readonly="1" />
+                            <field name="NumOri" readonly="1" />
+                            <field name="PisOri" readonly="1" />
+                            <field name="PobOri" readonly="1" />
+                            <field name="CPOri" readonly="1" />
+                            <field name="TlfOri" readonly="1" />
+                            <field name="CodProOri" readonly="1" />
                         <field name="dtm_envio" required="1"/>
                         <field name="Paq" required="1"/>
                         <field name="peso" required="1"/>
@@ -67,8 +74,7 @@
 
                     <center>
 
-                        <button name="genera_envio_etiqueta"
-                          string="Generar Etiqueta" type="object"
+                        <button string="Generar Etiqueta" type="object"
                           icon="gtk-execute"/>
                         <button string="Cancelar" class="oe_link"
                           special="cancel" icon="gtk-cancel"/>
@@ -82,9 +88,9 @@
 
     <!--=================ACCION ASISTENTE==================-->
     <act_window
-        name="TIPSA"
-        res_model="ws.etiqueta"
-        src_model="stock.picking"
+        name="TIPSA FACTURA"
+        res_model="ws.etiqueta.fac"
+        src_model="account.invoice"
         view_mode="form" target="new"
         key2="client_action_multi"
         id="action_ws_etiqueta"
