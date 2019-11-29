@@ -11,6 +11,9 @@ from xml.dom import minidom
 from datetime import datetime
 from openerp.exceptions import UserError, ValidationError
 from xml.etree.ElementTree import XML, fromstring, tostring, parse
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class servicio_tipsa(models.Model):
     _name = 'servicio.tipsa'
@@ -244,7 +247,7 @@ class ws_etiqueta(models.Model):
                      </WebServService___GrabaEnvio18>
                     </soap:Body>
             </soap:Envelope>"""
-        print ("---------####################----------",body_met)
+        _logger.warn("======>",body_met)
         response_met = requests.post(url_met,data=body_met,headers=headers_met)
         metodo = response_met.content
         myxml = fromstring(metodo)
