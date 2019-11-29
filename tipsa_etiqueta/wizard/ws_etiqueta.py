@@ -247,7 +247,7 @@ class ws_etiqueta(models.Model):
                      </WebServService___GrabaEnvio18>
                     </soap:Body>
             </soap:Envelope>"""
-        _logger.warn("======>",body_met)
+        _logger.debug("======>",body_met)
         response_met = requests.post(url_met,data=body_met,headers=headers_met)
         metodo = response_met.content
         myxml = fromstring(metodo)
