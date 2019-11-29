@@ -195,7 +195,6 @@ class ws_etiqueta(models.Model):
         </soap:Envelope>"""
         response = requests.post(url,data=body,headers=headers)
         login = response.content
-        print (login)
         ID = login[368:404]
         pesoString = str(self.peso)
         split_envio = self.dtm_envio.split('-')
@@ -247,7 +246,7 @@ class ws_etiqueta(models.Model):
                      </WebServService___GrabaEnvio18>
                     </soap:Body>
             </soap:Envelope>"""
-        _logger.debug("======>",body_met)
+        _logger.info("======> %r" % body_met)
         response_met = requests.post(url_met,data=body_met,headers=headers_met)
         metodo = response_met.content
         myxml = fromstring(metodo)
@@ -255,7 +254,6 @@ class ws_etiqueta(models.Model):
             etiqueta = element.findtext('{http://tempuri.org/}strAlbaranOut')
             if etiqueta:
                 albaran = etiqueta
-        print metodo
         return albaran
 
 
@@ -269,7 +267,6 @@ class ws_etiqueta(models.Model):
                         'datas_fname': 'Etiqueta.pdf',
                         'download_file': True})
         active_id = self._context.get('active_ids')
-        print active_id
         stock = self.env['stock.picking'].browse(active_id)
         stock_ids = stock.cambia_estado()
         env_tipsa = self.env['envio.tipsa']
