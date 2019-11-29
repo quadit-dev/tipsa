@@ -190,16 +190,11 @@ class ws_etiqueta(models.Model):
             </LoginWSService___LoginCli>
         </soap:Body>
         </soap:Envelope>"""
-        print (body)
         response = requests.post(url,data=body,headers=headers)
         login = response.content
         print (login)
         ID = login[368:404]
-        print ("----------->",ID)
         pesoString = str(self.peso)
-        print ("............------>", self.opcion.agencia)
-        print ("............------>", str(self.EmailDes))
-        print ("............------>", self.PersContacto)
         split_envio = self.dtm_envio.split('-')
         split_envio_dia = split_envio[2].split(' ')
         date_envio = split_envio[0]+'/'+split_envio[1]+'/'+split_envio_dia[0]  # noqa
@@ -249,7 +244,7 @@ class ws_etiqueta(models.Model):
                      </WebServService___GrabaEnvio18>
                     </soap:Body>
             </soap:Envelope>"""
-        print (body_met)
+        print ("---------####################----------",body_met)
         response_met = requests.post(url_met,data=body_met,headers=headers_met)
         metodo = response_met.content
         myxml = fromstring(metodo)
