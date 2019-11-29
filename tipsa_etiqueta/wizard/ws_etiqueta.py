@@ -130,9 +130,9 @@ class ws_etiqueta(models.Model):
             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
         <soap:Body>
             <LoginWSService___LoginCli>
-                <strCodAge>"""+self.opcion.agencia+"""</strCodAge>
-                <strCod>"""+self.opcion.user+"""</strCod>
-                <strPass>"""+self.opcion.password+"""</strPass>
+                <strCodAge>"""+str(self.opcion.agencia)+"""</strCodAge>
+                <strCod>"""+str(self.opcion.user)+"""</strCod>
+                <strPass>"""+str(self.opcion.password)+"""</strPass>
             </LoginWSService___LoginCli>
         </soap:Body>
         </soap:Envelope>"""
@@ -190,11 +190,16 @@ class ws_etiqueta(models.Model):
             </LoginWSService___LoginCli>
         </soap:Body>
         </soap:Envelope>"""
+        print (body)
         response = requests.post(url,data=body,headers=headers)
         login = response.content
+        print (login)
         ID = login[368:404]
-        print ("............------>", self.peso)
-        print ("............------>", self.serv_tipsa.codigo)
+        print ("----------->",ID)
+        pesoString = str(self.peso)
+        print ("............------>", self.opcion.agencia)
+        print ("............------>", str(self.EmailDes))
+        print ("............------>", self.PersContacto)
         split_envio = self.dtm_envio.split('-')
         split_envio_dia = split_envio[2].split(' ')
         date_envio = split_envio[0]+'/'+split_envio[1]+'/'+split_envio_dia[0]  # noqa
@@ -211,39 +216,40 @@ class ws_etiqueta(models.Model):
                     </soap:Header>
                     <soap:Body>
                      <WebServService___GrabaEnvio18 xmlns="http://tempuri.org/">
-                        <strCodAgeCargo>"""+self.opcion.agencia+"""</strCodAgeCargo>
-                        <strCodAgeOri>"""+self.opcion.agencia+"""</strCodAgeOri>
+                        <strCodAgeCargo>"""+str(self.opcion.agencia)+"""</strCodAgeCargo>
+                        <strCodAgeOri>"""+str(self.opcion.agencia)+"""</strCodAgeOri>
                         <dtFecha>"""+date_envio+"""</dtFecha>
-                        <strCodTipoServ>"""+self.serv_tipsa.codigo+"""</strCodTipoServ>
-                        <strCodCli>"""+self.opcion.agencia+"""</strCodCli>
-                        <strNomOri>"""+self.agencia_ori.name+"""</strNomOri>
-                        <strTipoViaOri>"""+self.agencia_ori.TipoVia+"""</strTipoViaOri>
-                        <strDirOri>"""+self.agencia_ori.street+"""</strDirOri>
-                        <strNumOri>"""+self.agencia_ori.num_home+"""</strNumOri>
-                        <strPisoOri>"""+self.agencia_ori.num_piso+"""</strPisoOri>
-                        <strPobOri>"""+self.agencia_ori.city+"""</strPobOri>
-                        <strCPOri>"""+self.agencia_ori.zip+"""</strCPOri>
-                        <strCodProOri>"""+self.agencia_ori.codigo_provin+"""</strCodProOri>
-                        <strTlfOri>"""+self.agencia_ori.phone+"""</strTlfOri>
-                        <strNomDes>"""+self.NomDes+"""</strNomDes>
-                        <strTipoViaDes>"""+self.TipoViaDes+"""</strTipoViaDes>
-                        <strDirDes>"""+self.DirDes+"""</strDirDes>
-                        <strNumDes>"""+self.NumDes+"""</strNumDes>
-                        <strPisoDes>"""+self.PisDes+"""</strPisoDes>
-                        <strPobDes>"""+self.PobDes+"""</strPobDes>
-                        <strCPDes>"""+self.CPDes+"""</strCPDes>
-                        <strCodProDes>"""+self.CodProDes+"""</strCodProDes>
-                        <strTlfDes>"""+self.TlfDes+"""</strTlfDes>
-                        <intPaq>"""+self.Paq+"""</intPaq>
-                        <dPesoOri>"""+str(self.peso)+"""</dPesoOri>
-                        <strPersContacto>"""+self.PersContacto+"""</strPersContacto>
+                        <strCodTipoServ>"""+str(self.serv_tipsa.codigo)+"""</strCodTipoServ>
+                        <strCodCli>"""+str(self.opcion.agencia)+"""</strCodCli>
+                        <strNomOri>"""+str(self.agencia_ori.name)+"""</strNomOri>
+                        <strTipoViaOri>"""+str(self.agencia_ori.TipoVia)+"""</strTipoViaOri>
+                        <strDirOri>"""+str(self.agencia_ori.street)+"""</strDirOri>
+                        <strNumOri>"""+str(self.agencia_ori.num_home)+"""</strNumOri>
+                        <strPisoOri>"""+str(self.agencia_ori.num_piso)+"""</strPisoOri>
+                        <strPobOri>"""+str(self.agencia_ori.city)+"""</strPobOri>
+                        <strCPOri>"""+str(self.agencia_ori.zip)+"""</strCPOri>
+                        <strCodProOri>"""+str(self.agencia_ori.codigo_provin)+"""</strCodProOri>
+                        <strTlfOri>"""+str(self.agencia_ori.phone)+"""</strTlfOri>
+                        <strNomDes>"""+str(self.NomDes)+"""</strNomDes>
+                        <strTipoViaDes>"""+str(self.TipoViaDes)+"""</strTipoViaDes>
+                        <strDirDes>"""+str(self.DirDes)+"""</strDirDes>
+                        <strNumDes>"""+str(self.NumDes)+"""</strNumDes>
+                        <strPisoDes>"""+str(self.PisDes)+"""</strPisoDes>
+                        <strPobDes>"""+str(self.PobDes)+"""</strPobDes>
+                        <strCPDes>"""+str(self.CPDes)+"""</strCPDes>
+                        <strCodProDes>"""+str(self.CodProDes)+"""</strCodProDes>
+                        <strTlfDes>"""+str(self.TlfDes)+"""</strTlfDes>
+                        <intPaq>"""+str(self.Paq)+"""</intPaq>
+                        <dPesoOri>"""+pesoString+"""</dPesoOri>
+                        <strPersContacto>"""+str(self.PersContacto)+"""</strPersContacto>
                         <boDesSMS>0</boDesSMS>
                         <boDesEmail>1</boDesEmail>
-                        <strDesDirEmails>"""+self.EmailDes+"""</strDesDirEmails>
+                        <strDesDirEmails>"""+str(self.EmailDes)+"""</strDesDirEmails>
                         <boInsert>1</boInsert>
                      </WebServService___GrabaEnvio18>
                     </soap:Body>
             </soap:Envelope>"""
+        print (body_met)
         response_met = requests.post(url_met,data=body_met,headers=headers_met)
         metodo = response_met.content
         myxml = fromstring(metodo)

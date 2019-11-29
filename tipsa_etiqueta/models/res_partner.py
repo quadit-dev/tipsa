@@ -10,4 +10,4 @@ class res_partner(models.Model):
     TipoVia = fields.Selection([('C', 'Calle'),
                                 ('PZA', 'Plaza'),
                                 ('AV', 'Avenida')],
-        string='Tipo de vía',required=True)
+        string='Tipo de vía')

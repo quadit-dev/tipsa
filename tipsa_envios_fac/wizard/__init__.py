@@ -1,3 +1,0 @@
-#-*- coding:utf-8 -*-
-
-from . import ws_etiqueta_fac
