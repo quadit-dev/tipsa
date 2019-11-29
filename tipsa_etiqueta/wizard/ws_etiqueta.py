@@ -52,9 +52,10 @@ class ws_etiqueta(models.Model):
     _description = 'Datos para etiqueta'
     opcion = fields.Many2one('tipsa.servicio',string="Opcion")
     name_env =fields.Char('Nombre envio')
-    dtm_envio = fields.Datetime ('Fecha envio',
+    dtm_envio = fields.Datetime ('Fecha de envío',
         readonly = False,
-        select = True)
+        select = True ,
+        default = lambda self: fields.datetime.now ())
     agencia_ori = fields.Many2one('res.partner', string="Remitente")
     serv_tipsa = fields.Many2one('servicio.tipsa', string="Tipo de servicio")
             #DATOS DEL DESTINO ------------------------------
