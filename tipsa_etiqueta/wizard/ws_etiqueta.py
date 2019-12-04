@@ -218,7 +218,7 @@ class ws_etiqueta(models.Model):
                         <strCodAgeOri>"""+str(self.opcion.agencia)+"""</strCodAgeOri>
                         <dtFecha>"""+date_envio+"""</dtFecha>
                         <strCodTipoServ>"""+str(self.serv_tipsa.codigo)+"""</strCodTipoServ>
-                        <strCodCli>"""+str(self.opcion.agencia)+"""</strCodCli>
+                        <strCodCli>"""+str(self.opcion.user)+"""</strCodCli>
                         <strNomOri>"""+str(self.agencia_ori.name)+"""</strNomOri>
                         <strTipoViaOri>"""+str(self.agencia_ori.TipoVia)+"""</strTipoViaOri>
                         <strDirOri>"""+str(self.agencia_ori.street)+"""</strDirOri>
