@@ -3,10 +3,10 @@ sudo: false
 cache: pip
 
 python:
-  - "3.5"
+  - "2.7"
 
 addons:
-  postgresql: "9.6"
+  postgresql: "9.5"
   apt:
     packages:
       - expect-dev  # provides unbuffer utility
@@ -17,7 +17,7 @@ addons:
 
 env:
   global:
-  - VERSION="12.0" TESTS="0" LINT_CHECK="0" TRANSIFEX="0"
+  - VERSION="9.0" TESTS="0" LINT_CHECK="0" TRANSIFEX="0"
 
   matrix:
   - LINT_CHECK="1"
@@ -31,6 +31,7 @@ install:
   - export WKHTMLTOPDF_VERSION=0.12.4
   - travis_install_nightly
   - pip install PyPDF2==1.18
+  - pip install requests==2.7.0
 
 script:
   - travis_run_tests

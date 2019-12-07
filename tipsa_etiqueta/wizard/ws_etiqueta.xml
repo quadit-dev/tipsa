@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
-<data>
-
-
+    <data>
     <!--======FORM VIEW ======-->
     <record id="ws_etiqueta" model="ir.ui.view" >
         <field name="name">ws.etiqueta.form</field>
@@ -80,15 +78,15 @@
         </record>
 
 
-    <!--=================ACCION ASISTENTE==================-->
-    <act_window
-        name="TIPSA"
-        res_model="ws.etiqueta"
-        src_model="stock.picking"
-        view_mode="form" target="new"
-        key2="client_action_multi"
-        id="action_ws_etiqueta"
-        />
+        <!--=================ACTION==================-->
+        <act_window
+            name="TIPSA"
+            res_model="ws.etiqueta"
+            src_model="stock.picking"
+            view_mode="form" target="new"
+            key2="client_action_multi"
+            id="action_ws_etiqueta"
+            />
 
-</data>
+    </data>
 </openerp>

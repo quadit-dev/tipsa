@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# Copyright 2019 QUADIT https://www.quadit.mx
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 from openerp import _, api, fields, models
 import requests
@@ -14,6 +16,7 @@ from xml.etree.ElementTree import XML, fromstring, tostring, parse
 import logging
 
 _logger = logging.getLogger(__name__)
+
 
 class servicio_tipsa(models.Model):
     _name = 'servicio.tipsa'
@@ -40,26 +43,24 @@ class res_partner(models.Model):
     _inherit = 'res.partner'
 
 
-
 class tipsa_servicio(models.Model):
     _name = 'tipsa.servicio'
     _inherit = 'tipsa.servicio'
 
 
-
 class ws_etiqueta(models.Model):
     _name = 'ws.etiqueta'
     _description = 'Datos para etiqueta'
-    opcion = fields.Many2one('tipsa.servicio',string="Opcion")
-    name_env =fields.Char('Nombre envio')
-    dtm_envio = fields.Datetime ('Fecha de envío',
-        readonly = False,
-        select = True ,
-        default = lambda self: fields.datetime.now ())
+    opcion = fields.Many2one('tipsa.servicio', string="Opcion")
+    name_env = fields.Char('Nombre envio')
+    dtm_envio = fields.Datetime('Fecha de envío',
+                                readonly=False,
+                                select=True,
+                                default=lambda self: fields.datetime.now())
     agencia_ori = fields.Many2one('res.partner', string="Remitente")
     serv_tipsa = fields.Many2one('servicio.tipsa', string="Tipo de servicio")
-            #DATOS DEL DESTINO ------------------------------
-    NomDes = fields.Char('Destino', required =True)
+    # DATOS DEL DESTINO ------------------------------
+    NomDes = fields.Char('Destino', required=True)
     DirDes = fields.Char('Direccion')
     NumDes = fields.Char('Número de casa')
     PisDes = fields.Char('Número de piso')
@@ -69,17 +70,17 @@ class ws_etiqueta(models.Model):
     CodProDes = fields.Char('Código provincial')
     CodDes = fields.Char('Código Destino')
     EmailDes = fields.Char('Email Destino')
-    TipoViaDes = fields.Char('Tipo de vía del destinatario.', required =True)
+    TipoViaDes = fields.Char('Tipo de vía del destinatario.', required=True)
     Paq = fields.Char('Número de paquetes')
     PersContacto = fields.Char('Persona de contacto')
-    #------------------------------------------------
-    #Datos etiqueta ---------------------------------
-    formato = fields.Selection([('233','PDF'),
-        ('226','TXT')],default="233")
+    # ------------------------------------------------
+    # Datos etiqueta ---------------------------------
+    formato = fields.Selection([('233', 'PDF'),
+                                ('226', 'TXT')], default="233")
     posicion_ini = fields.Char('Posicion inicial')
     peso = fields.Float('Peso')
-    #------------------------------------------------
-    #Descargar para etiqueta ------------------------
+    # ------------------------------------------------
+    # Descargar para etiqueta ------------------------
     file = fields.Binary('Layout')
     download_file = fields.Boolean('Descargar Archivo')
     cadena_decoding = fields.Text('Binario sin encoding')
@@ -90,44 +91,44 @@ class ws_etiqueta(models.Model):
     }
 
     @api.model
-    def default_get(self,values):
-        res = super(ws_etiqueta,self).default_get(values)
+    def default_get(self, values):
+        res = super(ws_etiqueta, self).default_get(values)
         active_id = self._context.get('active_ids')
         picking_id = self.env['stock.picking'].browse(active_id)
         partner = self.env['stock.picking'].browse(picking_id.partner_id)
-        objres = self.env['res.partner'].search([('id','=',partner.id.ids)])
+        objres = self.env['res.partner'].search([('id', '=', partner.id.ids)])
         for picking in picking_id:
             if picking.state_env == 'posted':
-                raise ValidationError(_('[-] No se puede crear etiqueta. Envio y Etiqueta realizados'))
+                raise ValidationError(
+                    _('[-] No se puede crear etiqueta. Envio y Etiqueta realizados'))
             res.update({
                 'name_env': picking.name,
-                'NomDes':objres.name,
-                'DirDes':objres.street,
-                'NumDes':objres.num_home,
-                'PisDes':objres.num_piso,
-                'PobDes':objres.city,
-                'CPDes':objres.zip,
-                'TlfDes':objres.phone,
-                'EmailDes':objres.email,
-                'CodProDes':objres.codigo_provin,
-                'TipoViaDes':objres.TipoVia,
-                'peso':picking.weight,
-                'PersContacto':objres.name,
-                'Paq':picking.number_of_packages,
-                })
+                'NomDes': objres.name,
+                'DirDes': objres.street,
+                'NumDes': objres.num_home,
+                'PisDes': objres.num_piso,
+                'PobDes': objres.city,
+                'CPDes': objres.zip,
+                'TlfDes': objres.phone,
+                'EmailDes': objres.email,
+                'CodProDes': objres.codigo_provin,
+                'TipoViaDes': objres.TipoVia,
+                'peso': picking.weight,
+                'PersContacto': objres.name,
+                'Paq': picking.number_of_packages,
+            })
         return res
 
-
     @api.multi
-    def genera_etiqueta(self,albaran):
+    def genera_etiqueta(self, albaran):
         if self.formato == '233':
-            form_c= 'PDF'
+            form_c = 'PDF'
         else:
             form_c = 'TXT'
         url = self.opcion.url_login
         file = fields.Binary('Layout')
         headers = {'content-type': 'text/xml'}
-        body =  """<?xml version="1.0" encoding="UTF-8"?>
+        body = """<?xml version="1.0" encoding="UTF-8"?>
         <soap:Envelope
             xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -140,12 +141,12 @@ class ws_etiqueta(models.Model):
             </LoginWSService___LoginCli>
         </soap:Body>
         </soap:Envelope>"""
-        response = requests.post(url,data=body,headers=headers)
+        response = requests.post(url, data=body, headers=headers)
         login = response.content
         ID = login[368:404]
         url_met = self.opcion.url_accion
         headers_met = {'content-type': 'text/xml'}
-        body_met =  """<?xml version="1.0" encoding="utf-8"?>
+        body_met = """<?xml version="1.0" encoding="utf-8"?>
         <soap:Envelope
             xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -164,7 +165,8 @@ class ws_etiqueta(models.Model):
             </WebServService___ConsEtiquetaEnvio6>
         </soap:Body>
         </soap:Envelope>"""
-        response_met = requests.post(url_met,data=body_met,headers=headers_met)
+        response_met = requests.post(
+            url_met, data=body_met, headers=headers_met)
         metodo = response_met.content
         # parse an xml file by na
         myxml = fromstring(metodo)
@@ -181,7 +183,7 @@ class ws_etiqueta(models.Model):
         url = self.opcion.url_login
         file = fields.Binary('Layout')
         headers = {'content-type': 'text/xml'}
-        body =  """<?xml version="1.0" encoding="UTF-8"?>
+        body = """<?xml version="1.0" encoding="UTF-8"?>
         <soap:Envelope
             xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -194,7 +196,7 @@ class ws_etiqueta(models.Model):
             </LoginWSService___LoginCli>
         </soap:Body>
         </soap:Envelope>"""
-        response = requests.post(url,data=body,headers=headers)
+        response = requests.post(url, data=body, headers=headers)
         login = response.content
         ID = login[368:404]
         pesoString = str(self.peso)
@@ -203,7 +205,7 @@ class ws_etiqueta(models.Model):
         date_envio = split_envio[0]+'/'+split_envio[1]+'/'+split_envio_dia[0]  # noqa
         url_met = self.opcion.url_accion
         headers_met = {'content-type': 'text/xml'}
-        body_met =  """<?xml version="1.0" encoding="utf-8"?>
+        body_met = """<?xml version="1.0" encoding="utf-8"?>
             <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -248,7 +250,8 @@ class ws_etiqueta(models.Model):
                     </soap:Body>
             </soap:Envelope>"""
         _logger.info("======> %r" % body_met)
-        response_met = requests.post(url_met,data=body_met,headers=headers_met)
+        response_met = requests.post(
+            url_met, data=body_met, headers=headers_met)
         metodo = response_met.content
         myxml = fromstring(metodo)
         for element in myxml.iter():
@@ -257,31 +260,28 @@ class ws_etiqueta(models.Model):
                 albaran = etiqueta
         return albaran
 
-
-
     @api.multi
     def genera_envio_etiqueta(self):
         albaran = self.genera_envio()
         pdf = self.genera_etiqueta(albaran)
         self.write({
-                        'file': base64.b64encode(pdf),
-                        'datas_fname': 'Etiqueta.pdf',
-                        'download_file': True})
+            'file': base64.b64encode(pdf),
+            'datas_fname': 'Etiqueta.pdf',
+            'download_file': True})
         active_id = self._context.get('active_ids')
         stock = self.env['stock.picking'].browse(active_id)
         stock_ids = stock.cambia_estado()
         env_tipsa = self.env['envio.tipsa']
         envio = env_tipsa.create({
-                'name': self.name_env,
-                'albaran': albaran,
-                'agencia_ori': self.agencia_ori.name,
-                'agencia_des': self.NomDes,
-                'paq': self.Paq,
-                'file': self.file,
-                'datas_fname': self.datas_fname,
-                'dtm_envio': self.dtm_envio,
-                })
-
+            'name': self.name_env,
+            'albaran': albaran,
+            'agencia_ori': self.agencia_ori.name,
+            'agencia_des': self.NomDes,
+            'paq': self.Paq,
+            'file': self.file,
+            'datas_fname': self.datas_fname,
+            'dtm_envio': self.dtm_envio,
+        })
 
         return {
             'type': 'ir.actions.act_window',
@@ -294,8 +294,3 @@ class ws_etiqueta(models.Model):
 
 
         }
-
-
-
-
-

@@ -1,62 +1,52 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
         <record model="ir.ui.view" id="tree_tipsa_inte">
-                 <field name="name">tipsa.servicio.tree</field>
-                 <field name="model">tipsa.servicio</field>
-                 <field name="type">tree</field>
-                 <field name="arch" type="xml">
-                     <tree string="servicio">
-                          <field name="name" />
-                     </tree>
-                 </field>
+            <field name="name">tipsa.servicio.tree</field>
+            <field name="model">tipsa.servicio</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+            <tree string="servicio">
+                <field name="name" />
+            </tree>
+            </field>
         </record>
+
         <record model="ir.ui.view" id="tipsa_int_form">
-                <field name="name">tipsa.servicio.form</field>
-                <field name="model">tipsa.servicio</field>
-                <field name="type">form</field>
-                <field name="arch" type="xml">
-                    <form string="Conexion a realizar">
-
-                        <header>
-                        </header>
-                        <sheet>
-
-                            <group colspan="2">
+            <field name="name">tipsa.servicio.form</field>
+            <field name="model">tipsa.servicio</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Conexion a realizar">
+                    <header></header>
+                    <sheet>
+                        <group colspan="2">
                                 <field name="name" />
                                 <field name="url_login" />
                                 <field name="url_accion" />
                                 <field name="agencia" />
                                 <field name="user" />
                                 <field name="password" password="True" />
+                        </group>
+                    </sheet>
+                </form>
+        </field>
+        </record>
 
-                            </group>
-
-                        </sheet>
-
-
-                 </form>
-             </field>
-            </record>
-
-        <record model="ir.actions.act_window"
-            id="act_tipsa_inte">
+        <record model="ir.actions.act_window" id="act_tipsa_inte">
             <field name="name">TIPSA INTEGRACION</field>
             <field name="res_model">tipsa.servicio</field>
             <field name="view_mode">tree,form</field>
-            </record>
+        </record>
 
-
-            <menuitem id="id_principal_inte"
+        <menuitem id="id_principal_inte"
                 name="TIPSA" />
 
-            <menuitem id="id_menu_inte" parent="stock.menu_stock_config_settings"
+        <menuitem id="id_menu_inte" parent="stock.menu_stock_config_settings"
                 name="Servicio" sequence="0" />
 
-            <menuitem id="id_menu_inte_act" parent="id_menu_inte"
+        <menuitem id="id_menu_inte_act" parent="id_menu_inte"
                 name="Servicio web" action="act_tipsa_inte"
                 sequence="0" />
-
-
-    </data>
+        </data>
 </openerp>
