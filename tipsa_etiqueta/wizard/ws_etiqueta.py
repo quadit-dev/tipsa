@@ -111,28 +111,32 @@ class ws_etiqueta(models.Model):
         res = super(ws_etiqueta,self).default_get(values)
         active_id = self._context.get('active_ids')
         picking_id = self.env['stock.picking'].browse(active_id)
+        suma_peso = 0
+        suma_paq = 0
         for picking in picking_id:
             partner = self.env['stock.picking'].browse(picking.partner_id.ids)
             objres = self.env['res.partner'].search([('id','=',partner.id)])
+            suma_peso= suma_peso + picking.weight
+            suma_paq = suma_paq + picking.number_of_packages
             if picking.state_env == 'posted':
                 raise ValidationError(
                     _('[-] No se puede crear etiqueta. Envio y Etiqueta realizados'))
-            res.update({
-                'name_env': picking.name,
-                'NomDes':objres.name,
-                'DirDes':objres.street,
-                'NumDes':objres.num_home,
-                'PisDes':objres.num_piso,
-                'PobDes':objres.city,
-                'CPDes':objres.zip,
-                'TlfDes':objres.phone,
-                'EmailDes':objres.email,
-                'CodProDes':objres.codigo_provin,
-                'TipoViaDes':objres.TipoVia,
-                'peso':picking.weight,
-                'PersContacto':objres.name,
-                'Paq':picking.number_of_packages,
-                })
+        res.update({
+            'name_env': picking.name,
+            'NomDes':objres.name,
+            'DirDes':objres.street,
+            'NumDes':objres.num_home,
+            'PisDes':objres.num_piso,
+            'PobDes':objres.city,
+            'CPDes':objres.zip,
+            'TlfDes':objres.phone,
+            'EmailDes':objres.email,
+            'CodProDes':objres.codigo_provin,
+            'TipoViaDes':objres.TipoVia,
+            'peso':suma_peso,
+            'PersContacto':objres.name,
+            'Paq':suma_paq,
+            })
 
         return res
 
