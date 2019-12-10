@@ -51,14 +51,30 @@ class tipsa_servicio(models.Model):
 class ws_etiqueta(models.Model):
     _name = 'ws.etiqueta'
     _description = 'Datos para etiqueta'
-    opcion = fields.Many2one('tipsa.servicio', string="Opcion")
+
+    def obtener_servicio(self):
+        tipsa = self.env['tipsa.servicio']
+        tipsa_id = tipsa.search([('id', '=', '1')])
+        return tipsa_id
+
+    def obtener_remitente(self):
+        res = self.env['res.partner']
+        res_partner = res.search([('name', '=', 'Soluziono desarrollos editoriales SL')])
+        return res_partner
+
+    def obtener_tipo(self):
+        servicio = self.env['servicio.tipsa']
+        servicio_tipo = servicio.search([('name', '=', '14 HORAS')])
+        return servicio_tipo
+
+    opcion = fields.Many2one('tipsa.servicio', string="Opcion",default=obtener_servicio)
     name_env = fields.Char('Nombre envio')
     dtm_envio = fields.Datetime('Fecha de envío',
                                 readonly=False,
                                 select=True,
                                 default=lambda self: fields.datetime.now())
-    agencia_ori = fields.Many2one('res.partner', string="Remitente")
-    serv_tipsa = fields.Many2one('servicio.tipsa', string="Tipo de servicio")
+    agencia_ori = fields.Many2one('res.partner', string="Remitente",default=obtener_remitente)
+    serv_tipsa = fields.Many2one('servicio.tipsa', string="Tipo de servicio",default=obtener_tipo)
     # DATOS DEL DESTINO ------------------------------
     NomDes = fields.Char('Destino', required=True)
     DirDes = fields.Char('Direccion')
