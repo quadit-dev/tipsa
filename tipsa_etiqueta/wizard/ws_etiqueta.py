@@ -91,32 +91,33 @@ class ws_etiqueta(models.Model):
     }
 
     @api.model
-    def default_get(self, values):
-        res = super(ws_etiqueta, self).default_get(values)
+    def default_get(self,values):
+        res = super(ws_etiqueta,self).default_get(values)
         active_id = self._context.get('active_ids')
         picking_id = self.env['stock.picking'].browse(active_id)
-        partner = self.env['stock.picking'].browse(picking_id.partner_id)
-        objres = self.env['res.partner'].search([('id', '=', partner.id.ids)])
         for picking in picking_id:
+            partner = self.env['stock.picking'].browse(picking.partner_id.ids)
+            objres = self.env['res.partner'].search([('id','=',partner.id)])
             if picking.state_env == 'posted':
                 raise ValidationError(
                     _('[-] No se puede crear etiqueta. Envio y Etiqueta realizados'))
             res.update({
                 'name_env': picking.name,
-                'NomDes': objres.name,
-                'DirDes': objres.street,
-                'NumDes': objres.num_home,
-                'PisDes': objres.num_piso,
-                'PobDes': objres.city,
-                'CPDes': objres.zip,
-                'TlfDes': objres.phone,
-                'EmailDes': objres.email,
-                'CodProDes': objres.codigo_provin,
-                'TipoViaDes': objres.TipoVia,
-                'peso': picking.weight,
-                'PersContacto': objres.name,
-                'Paq': picking.number_of_packages,
-            })
+                'NomDes':objres.name,
+                'DirDes':objres.street,
+                'NumDes':objres.num_home,
+                'PisDes':objres.num_piso,
+                'PobDes':objres.city,
+                'CPDes':objres.zip,
+                'TlfDes':objres.phone,
+                'EmailDes':objres.email,
+                'CodProDes':objres.codigo_provin,
+                'TipoViaDes':objres.TipoVia,
+                'peso':picking.weight,
+                'PersContacto':objres.name,
+                'Paq':picking.number_of_packages,
+                })
+
         return res
 
     @api.multi
@@ -270,7 +271,8 @@ class ws_etiqueta(models.Model):
             'download_file': True})
         active_id = self._context.get('active_ids')
         stock = self.env['stock.picking'].browse(active_id)
-        stock_ids = stock.cambia_estado()
+        for picking in stock:
+            stock_ids = picking.cambia_estado()
         env_tipsa = self.env['envio.tipsa']
         envio = env_tipsa.create({
             'name': self.name_env,
