@@ -269,9 +269,11 @@ class ws_etiqueta(models.Model):
             'file': base64.b64encode(pdf),
             'datas_fname': 'Etiqueta.pdf',
             'download_file': True})
+        cad = " "
         active_id = self._context.get('active_ids')
         stock = self.env['stock.picking'].browse(active_id)
         for picking in stock:
+            cad = cad + picking.name + "\n"
             stock_ids = picking.cambia_estado()
         env_tipsa = self.env['envio.tipsa']
         envio = env_tipsa.create({
@@ -282,6 +284,7 @@ class ws_etiqueta(models.Model):
             'paq': self.Paq,
             'file': self.file,
             'datas_fname': self.datas_fname,
+            'albaran_soluziono':cad,
             'dtm_envio': self.dtm_envio,
         })
 
