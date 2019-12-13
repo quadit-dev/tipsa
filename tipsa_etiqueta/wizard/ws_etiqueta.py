@@ -205,6 +205,7 @@ class ws_etiqueta(models.Model):
     def genera_envio(self):
         url = self.opcion.url_login
         file = fields.Binary('Layout')
+        print ("#################333",str(self.TipoViaDes))
         headers = {'content-type': 'text/xml'}
         body = """<?xml version="1.0" encoding="UTF-8"?>
         <soap:Envelope
@@ -245,7 +246,7 @@ class ws_etiqueta(models.Model):
                         <strCodTipoServ>"""+str(self.serv_tipsa.codigo)+"""</strCodTipoServ>
                         <strCodCli>"""+str(self.opcion.user)+"""</strCodCli>
                         <strNomOri>"""+str(self.agencia_ori.name)+"""</strNomOri>
-                        <strTipoViaOri>"""+str(self.agencia_ori.TipoVia)+"""</strTipoViaOri>
+                        <strTipoViaOri>"""+str(self.TipoViaDes)+"""</strTipoViaOri>
                         <strDirOri>"""+str(self.agencia_ori.street)+"""</strDirOri>
                         <strNumOri>"""+str(self.agencia_ori.num_home)+"""</strNumOri>
                         <strPisoOri>"""+str(self.agencia_ori.num_piso)+"""</strPisoOri>
