@@ -27,17 +27,17 @@
 
                     </group>
                     <group col="4">
-                            <field name="NomDes" />
-                            <field name="DirDes" />
-                            <field name="NumDes" />
-                            <field name="PisDes" />
-                            <field name="PobDes" />
-                            <field name="CPDes"  />
-                            <field name="TlfDes" />
-                            <field name="EmailDes" />
-                            <field name="CodProDes" />
-                            <field name="PersContacto" />
-                            <field name="TipoViaDes"/>
+                            <field name="NomDes" required="1" />
+                            <field name="DirDes" required="1" />
+                            <field name="NumDes" required="1" />
+                            <field name="PisDes" required="1" />
+                            <field name="PobDes" required="1" />
+                            <field name="CPDes"  required="1" />
+                            <field name="TlfDes" required="1" />
+                            <field name="EmailDes" required="1" />
+                            <field name="CodProDes" required="1" />
+                            <field name="PersContacto" required="1" />
+                            <field name="TipoViaDes" required="1" />
                         </group>
                     <separator colspan="4" string="Etiqueta TIPSA"/>
                     <group col="2" >
