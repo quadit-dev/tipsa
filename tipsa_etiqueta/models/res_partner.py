@@ -11,8 +11,3 @@ class res_partner(models.Model):
     num_home = fields.Char()
     num_piso = fields.Char()
     codigo_provin = fields.Char()
-    TipoVia = fields.Selection([
-        ('C', 'Calle'),
-        ('PZA', 'Plaza'),
-        ('AV', 'Avenida')],
-        string='Tipo de vía')

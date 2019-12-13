@@ -86,7 +86,11 @@ class ws_etiqueta(models.Model):
     CodProDes = fields.Char('Código provincial')
     CodDes = fields.Char('Código Destino')
     EmailDes = fields.Char('Email Destino')
-    TipoViaDes = fields.Char('Tipo de vía del destinatario.', required=True)
+    TipoViaDes = fields.Selection([
+        ('C', 'Calle'),
+        ('PZA', 'Plaza'),
+        ('AV', 'Avenida')],
+        string='Tipo de vía',default ='C')
     Paq = fields.Char('Número de paquetes')
     PersContacto = fields.Char('Persona de contacto')
     # ------------------------------------------------
@@ -132,8 +136,6 @@ class ws_etiqueta(models.Model):
             'TlfDes':objres.phone,
             'EmailDes':objres.email,
             'CodProDes':objres.codigo_provin,
-            'TipoViaDes':objres.TipoVia,
-            'peso':suma_peso,
             'PersContacto':objres.name,
             'Paq':suma_paq,
             })
