@@ -77,20 +77,20 @@ class ws_etiqueta(models.Model):
     serv_tipsa = fields.Many2one('servicio.tipsa', string="Tipo de servicio",default=obtener_tipo)
     # DATOS DEL DESTINO ------------------------------
     NomDes = fields.Char('Destino', required=True)
-    DirDes = fields.Char('Direccion')
-    NumDes = fields.Char('Número de casa')
-    PisDes = fields.Char('Número de piso')
-    PobDes = fields.Char('Población')
-    CPDes = fields.Char('Código postal')
-    TlfDes = fields.Char('Telefono')
-    CodProDes = fields.Char('Código provincial')
-    CodDes = fields.Char('Código Destino')
-    EmailDes = fields.Char('Email Destino')
+    DirDes = fields.Char('Direccion',required=True)
+    NumDes = fields.Char('Número de casa',required=True)
+    PisDes = fields.Char('Número de piso',required=True)
+    PobDes = fields.Char('Población',required=True)
+    CPDes = fields.Char('Código postal',required=True)
+    TlfDes = fields.Char('Telefono',required=True)
+    CodProDes = fields.Char('Código provincial',required=True)
+    CodDes = fields.Char('Código Destino',required=True)
+    EmailDes = fields.Char('Email Destino',required=True)
     TipoViaDes = fields.Selection([
         ('C', 'Calle'),
         ('PZA', 'Plaza'),
         ('AV', 'Avenida')],
-        string='Tipo de vía',default ='C')
+        string='Tipo de vía',default ='C',required=True)
     Paq = fields.Char('Número de paquetes')
     PersContacto = fields.Char('Persona de contacto')
     # ------------------------------------------------
