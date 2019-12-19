@@ -91,14 +91,14 @@
               <field name="view_mode">tree,form</field>
             </record>
 
-            <menuitem id="id_menu_env" parent="stock.menu_stock_warehouse_mgmt"
-                name="Envios TIPSA"  />
+           
 
-            <menuitem id="id_menu_env_act" parent="id_menu_env"
-                name="Envios" action="act_tipsa_env"/>
+            <menuitem id="id_menu_env_act" parent="stock.menu_stock_warehouse_mgmt"
+                name="Envios TIPSA" action="act_tipsa_env" sequence="2" />
 
-            <menuitem id="id_menu_env_serv" parent="id_menu_env"
-                name="Servicios" action="act_tipsa_serv" />
+            <menuitem id="id_menu_env_serv" parent="stock.menu_stock_warehouse_mgmt"
+                name="Servicios TIPSA" action="act_tipsa_serv" 
+                sequence="2"/>
 
 
 
