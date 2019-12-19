@@ -123,7 +123,8 @@ class ws_etiqueta(models.Model):
             objres = self.env['res.partner'].search([('id','=',partner.id)])
             suma_peso= suma_peso + picking.weight
             suma_paq = suma_paq + picking.number_of_packages
-            cod = self.calcula_codigo_provincia(objres.zip)
+            cod = objres.zip
+            cod = cod[0:1]
             if picking.state_env == 'posted':
                 raise ValidationError(
                     _('[-] No se puede crear etiqueta. Envio y Etiqueta realizados'))
@@ -153,7 +154,7 @@ class ws_etiqueta(models.Model):
         url = self.opcion.url_login
         file = fields.Binary('Layout')
         headers = {'content-type': 'text/xml'}
-        body = """<?xml version="1.0" encoding="UTF-8"?>
+        body = """<?xml vcalcula_codigo_provincialersion="1.0" encoding="UTF-8"?>
         <soap:Envelope
             xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -188,7 +189,7 @@ class ws_etiqueta(models.Model):
                 <intIdRepDet>"""+self.formato+"""</intIdRepDet>
                 <strFormato>"""+form_c+"""</strFormato>
             </WebServService___ConsEtiquetaEnvio6>
-        </soap:Body>
+      object  </soap:Body>
         </soap:Envelope>"""
         response_met = requests.post(
             url_met, data=body_met, headers=headers_met)
@@ -208,11 +209,11 @@ class ws_etiqueta(models.Model):
         url = self.opcion.url_login
         file = fields.Binary('Layout')
         print ("#################333",str(self.TipoViaDes))
-        headers = {'content-type': 'text/xml'}
+        headers = {'contecalcula_codigo_provincialnt-type': 'text/xml'}
         body = """<?xml version="1.0" encoding="UTF-8"?>
         <soap:Envelope
             xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmobjectlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xmlns:xsd="http://calcula_codigo_provincialwww.w3.org/2001/XMLSchema">
         <soap:Body>
             <LoginWSService___LoginCli>
@@ -252,7 +253,7 @@ class ws_etiqueta(models.Model):
                         <strDirOri>"""+str(self.agencia_ori.street)+"""</strDirOri>
                         <strNumOri>"""+str(self.agencia_ori.num_home)+"""</strNumOri>
                         <strPisoOri>"""+str(self.agencia_ori.num_piso)+"""</strPisoOri>
-                        <strPobOri>"""+str(self.agencia_ori.city)+"""</strPobOri>
+                        <calcula_codigo_provincialstrPobOri>"""+str(self.agencia_ori.city)+"""</strPobOri>
                         <strCPOri>"""+str(self.agencia_ori.zip)+"""</strCPOri>
                         <strCodProOri>"""+str(self.agencia_ori.codigo_provin)+"""</strCodProOri>
                         <strTlfOri>"""+str(self.agencia_ori.phone)+"""</strTlfOri>
@@ -326,7 +327,3 @@ class ws_etiqueta(models.Model):
 
         }
 
-    @api.multi
-    def calcula_codigo_provincial(self,cp):
-        cod_pro = cp[0:1]
-        return cod_pro
