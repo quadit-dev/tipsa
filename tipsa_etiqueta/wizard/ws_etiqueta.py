@@ -117,11 +117,13 @@ class ws_etiqueta(models.Model):
         picking_id = self.env['stock.picking'].browse(active_id)
         suma_peso = 0
         suma_paq = 0
+        
         for picking in picking_id:
             partner = self.env['stock.picking'].browse(picking.partner_id.ids)
             objres = self.env['res.partner'].search([('id','=',partner.id)])
             suma_peso= suma_peso + picking.weight
             suma_paq = suma_paq + picking.number_of_packages
+            cod = self.calcula_codigo_provincia(objres.zip)
             if picking.state_env == 'posted':
                 raise ValidationError(
                     _('[-] No se puede crear etiqueta. Envio y Etiqueta realizados'))
@@ -135,7 +137,7 @@ class ws_etiqueta(models.Model):
             'CPDes':objres.zip,
             'TlfDes':objres.phone,
             'EmailDes':objres.email,
-            'CodProDes':objres.codigo_provin,
+            'CodProDes':cod,
             'PersContacto':objres.name,
             'Paq':suma_paq,
             })
@@ -211,7 +213,7 @@ class ws_etiqueta(models.Model):
         <soap:Envelope
             xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            xmlns:xsd="http://calcula_codigo_provincialwww.w3.org/2001/XMLSchema">
         <soap:Body>
             <LoginWSService___LoginCli>
                 <strCodAge>"""+self.opcion.agencia+"""</strCodAge>
@@ -323,3 +325,8 @@ class ws_etiqueta(models.Model):
 
 
         }
+
+    @api.multi
+    def calcula_codigo_provincial(self,cp):
+        cod_pro = cp[0:1]
+        return cod_pro
