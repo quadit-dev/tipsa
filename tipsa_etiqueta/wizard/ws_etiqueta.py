@@ -78,8 +78,8 @@ class ws_etiqueta(models.Model):
     # DATOS DEL DESTINO ------------------------------
     NomDes = fields.Char('Destino', required=True)
     DirDes = fields.Char('Direccion',required=True)
-    NumDes = fields.Char('Número de casa',required=True)
-    PisDes = fields.Char('Número de piso',required=True)
+    NumDes = fields.Char('Número de casa')
+    PisDes = fields.Char('Número de piso')
     PobDes = fields.Char('Población',required=True)
     CPDes = fields.Char('Código postal',required=True)
     TlfDes = fields.Char('Telefono',required=True)

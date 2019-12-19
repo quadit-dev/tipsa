@@ -29,8 +29,8 @@
                     <group col="4">
                             <field name="NomDes" required="1" />
                             <field name="DirDes" required="1" />
-                            <field name="NumDes" required="1" />
-                            <field name="PisDes" required="1" />
+                            <field name="NumDes" />
+                            <field name="PisDes" />
                             <field name="PobDes" required="1" />
                             <field name="CPDes"  required="1" />
                             <field name="TlfDes" required="1" />

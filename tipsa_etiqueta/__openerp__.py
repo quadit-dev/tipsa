@@ -11,8 +11,6 @@
         'mail',
         'sale',
         'purchase',
-        'tqn_partnerdiscount',
-        'shipping_eci_corte_ingles',
         'tipsa_envios'
     ],
     'author': 'Quadit, S.A. de C.V.',
