@@ -207,7 +207,7 @@ class ws_etiqueta(models.Model):
     def genera_envio(self):
         url = self.opcion.url_login
         file = fields.Binary('Layout')
-        headers = {'contecalcula_codigo_provincialnt-type': 'text/xml'}
+        headers = {'content-type': 'text/xml'}
         body = """<?xml version="1.0" encoding="UTF-8"?>
         <soap:Envelope
             xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
