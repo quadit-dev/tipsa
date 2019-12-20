@@ -235,7 +235,7 @@ class ws_etiqueta(models.Model):
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema">
                     <soap:Header>
-                        <ROClientIDHeader xmlnsopcion="http://tempuri.org/">
+                        <ROClientIDHeader xmlns="http://tempuri.org/">
                             <ID>{"""+ID+"""}</ID>
                         </ROClientIDHeader>
                     </soap:Header>
