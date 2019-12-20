@@ -124,7 +124,6 @@ class ws_etiqueta(models.Model):
             suma_peso= suma_peso + picking.weight
             suma_paq = suma_paq + picking.number_of_packages
             cod = objres.zip
-            cod = cod[0:2]
             if picking.state_env == 'posted':
                 raise ValidationError(
                     _('[-] No se puede crear etiqueta. Envio y Etiqueta realizados'))
@@ -208,7 +207,6 @@ class ws_etiqueta(models.Model):
     def genera_envio(self):
         url = self.opcion.url_login
         file = fields.Binary('Layout')
-        print ("#################333",str(self.TipoViaDes))
         headers = {'contecalcula_codigo_provincialnt-type': 'text/xml'}
         body = """<?xml version="1.0" encoding="UTF-8"?>
         <soap:Envelope
