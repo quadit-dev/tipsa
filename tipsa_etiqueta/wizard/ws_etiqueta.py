@@ -211,7 +211,7 @@ class ws_etiqueta(models.Model):
         body = """<?xml version="1.0" encoding="UTF-8"?>
         <soap:Envelope
             xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
-            xmobjectlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
         <soap:Body>
             <LoginWSService___LoginCli>
