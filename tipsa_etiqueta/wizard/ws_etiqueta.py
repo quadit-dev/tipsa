@@ -208,7 +208,7 @@ class ws_etiqueta(models.Model):
         url = self.opcion.url_login
         file = fields.Binary('Layout')
         headers = {'content-type': 'text/xml'}
-        body = """<?xml version="1.0" encoding="UTF-8"?>
+        body = """<?xml version="1.0" encoding="utf-8"?>
         <soap:Envelope
             xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -275,8 +275,7 @@ class ws_etiqueta(models.Model):
                     </soap:Body>
             </soap:Envelope>"""
         _logger.info("======> %r" % body_met)
-        response_met = requests.post(
-            url_met, data=body_met, headers=headers_met)
+        response_met = requests.post(url_met, data=body_met, headers=headers_met)
         metodo = response_met.content
         myxml = fromstring(metodo)
         for element in myxml.iter():
