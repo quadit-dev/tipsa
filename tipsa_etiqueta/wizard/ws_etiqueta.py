@@ -188,7 +188,7 @@ class ws_etiqueta(models.Model):
                 <intIdRepDet>"""+self.formato+"""</intIdRepDet>
                 <strFormato>"""+form_c+"""</strFormato>
             </WebServService___ConsEtiquetaEnvio6>
-      object  </soap:Body>
+        </soap:Body>
         </soap:Envelope>"""
         response_met = requests.post(
             url_met, data=body_met, headers=headers_met)
@@ -251,7 +251,7 @@ class ws_etiqueta(models.Model):
                         <strDirOri>"""+str(self.agencia_ori.street)+"""</strDirOri>
                         <strNumOri>"""+str(self.agencia_ori.num_home)+"""</strNumOri>
                         <strPisoOri>"""+str(self.agencia_ori.num_piso)+"""</strPisoOri>
-                        <calcula_codigo_provincialstrPobOri>"""+str(self.agencia_ori.city)+"""</strPobOri>
+                        <strPobOri>"""+str(self.agencia_ori.city)+"""</strPobOri>
                         <strCPOri>"""+str(self.agencia_ori.zip)+"""</strCPOri>
                         <strCodProOri>"""+str(self.agencia_ori.codigo_provin)+"""</strCodProOri>
                         <strTlfOri>"""+str(self.agencia_ori.phone)+"""</strTlfOri>
