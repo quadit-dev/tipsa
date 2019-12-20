@@ -190,8 +190,7 @@ class ws_etiqueta(models.Model):
             </WebServService___ConsEtiquetaEnvio6>
         </soap:Body>
         </soap:Envelope>"""
-        response_met = requests.post(
-            url_met, data=body_met, headers=headers_met)
+        response_met = requests.post(url_met, data=body_met, headers=headers_met)
         metodo = response_met.content
         # parse an xml file by na
         myxml = fromstring(metodo)
