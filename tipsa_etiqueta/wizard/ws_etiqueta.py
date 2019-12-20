@@ -222,6 +222,7 @@ class ws_etiqueta(models.Model):
         </soap:Envelope>"""
         response = requests.post(url, data=body, headers=headers)
         login = response.content
+        _logger.info("======> %r" % login)
         ID = login[368:404]
         pesoString = str(self.peso)
         split_envio = self.dtm_envio.split('-')
