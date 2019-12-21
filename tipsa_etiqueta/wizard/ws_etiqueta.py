@@ -124,6 +124,7 @@ class ws_etiqueta(models.Model):
             suma_peso= suma_peso + picking.weight
             suma_paq = suma_paq + picking.number_of_packages
             cod = objres.zip
+            cod = cod[0:2]
             if picking.state_env == 'posted':
                 raise ValidationError(
                     _('[-] No se puede crear etiqueta. Envio y Etiqueta realizados'))
@@ -131,8 +132,6 @@ class ws_etiqueta(models.Model):
             'name_env': picking.name,
             'NomDes':objres.name,
             'DirDes':objres.street,
-            'NumDes':objres.num_home,
-            'PisDes':objres.num_piso,
             'PobDes':objres.city,
             'CPDes':objres.zip,
             'TlfDes':objres.phone,
@@ -250,8 +249,6 @@ class ws_etiqueta(models.Model):
                         <strNomOri>"""+str(self.agencia_ori.name)+"""</strNomOri>
                         <strTipoViaOri>"""+str(self.TipoViaDes)+"""</strTipoViaOri>
                         <strDirOri>"""+str(self.agencia_ori.street)+"""</strDirOri>
-                        <strNumOri>"""+str(self.agencia_ori.num_home)+"""</strNumOri>
-                        <strPisoOri>"""+str(self.agencia_ori.num_piso)+"""</strPisoOri>
                         <strPobOri>"""+str(self.agencia_ori.city)+"""</strPobOri>
                         <strCPOri>"""+str(self.agencia_ori.zip)+"""</strCPOri>
                         <strCodProOri>"""+str(self.agencia_ori.codigo_provin)+"""</strCodProOri>
@@ -259,8 +256,6 @@ class ws_etiqueta(models.Model):
                         <strNomDes>"""+str(self.NomDes)+"""</strNomDes>
                         <strTipoViaDes>"""+str(self.TipoViaDes)+"""</strTipoViaDes>
                         <strDirDes>"""+str(self.DirDes)+"""</strDirDes>
-                        <strNumDes>"""+str(self.NumDes)+"""</strNumDes>
-                        <strPisoDes>"""+str(self.PisDes)+"""</strPisoDes>
                         <strPobDes>"""+str(self.PobDes)+"""</strPobDes>
                         <strCPDes>"""+str(self.CPDes)+"""</strCPDes>
                         <strCodProDes>"""+str(self.CodProDes)+"""</strCodProDes>
