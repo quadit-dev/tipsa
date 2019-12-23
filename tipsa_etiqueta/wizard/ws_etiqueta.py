@@ -122,6 +122,7 @@ class ws_etiqueta(models.Model):
             partner = self.env['stock.picking'].browse(picking.partner_id.ids)
             objres = self.env['res.partner'].search([('id','=',partner.id)])
             suma_peso= suma_peso + picking.weight
+            _logger.info("======> %r" % suma_peso)
             cod = objres.zip
             cod = cod[0:2]
             paquetes = "1"
