@@ -225,6 +225,8 @@ class ws_etiqueta(models.Model):
         _logger.info("======> %r" % login)
         ID = login[368:404]
         pesoString = str(self.peso)
+        codigo_provincia = self.agencia_ori.zip
+        codigo_provincia = codigo_provincia[0:2]
         split_envio = self.dtm_envio.split('-')
         split_envio_dia = split_envio[2].split(' ')
         date_envio = split_envio[0]+'/'+split_envio[1]+'/'+split_envio_dia[0]  # noqa
@@ -251,7 +253,7 @@ class ws_etiqueta(models.Model):
                         <strDirOri>"""+str(self.agencia_ori.street)+"""</strDirOri>
                         <strPobOri>"""+str(self.agencia_ori.city)+"""</strPobOri>
                         <strCPOri>"""+str(self.agencia_ori.zip)+"""</strCPOri>
-                        <strCodProOri>"""+str(self.agencia_ori.codigo_provin)+"""</strCodProOri>
+                        <strCodProOri>"""+codigo_provincia+"""</strCodProOri>
                         <strTlfOri>"""+str(self.agencia_ori.phone)+"""</strTlfOri>
                         <strNomDes>"""+str(self.NomDes)+"""</strNomDes>
                         <strTipoViaDes>"""+str(self.TipoViaDes)+"""</strTipoViaDes>
