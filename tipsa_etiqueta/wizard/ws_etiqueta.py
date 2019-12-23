@@ -122,9 +122,9 @@ class ws_etiqueta(models.Model):
             partner = self.env['stock.picking'].browse(picking.partner_id.ids)
             objres = self.env['res.partner'].search([('id','=',partner.id)])
             suma_peso= suma_peso + picking.weight
-            suma_paq = suma_paq + picking.number_of_packages
             cod = objres.zip
             cod = cod[0:2]
+            paquetes = "1"
             if picking.state_env == 'posted':
                 raise ValidationError(
                     _('[-] No se puede crear etiqueta. Envio y Etiqueta realizados'))
@@ -138,7 +138,7 @@ class ws_etiqueta(models.Model):
             'EmailDes':objres.email,
             'CodProDes':cod,
             'PersContacto':objres.name,
-            'Paq':suma_paq,
+            'Paq':paquetes,
             })
 
         return res
