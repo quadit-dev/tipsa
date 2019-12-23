@@ -9,6 +9,7 @@
                  <field name="arch" type="xml">
                      <tree string="Envio">
                           <field name="name" />
+                          <field name="agencia_des" />
                           <field name="albaran" />
                           <field name="dtm_envio" />
                      </tree>
