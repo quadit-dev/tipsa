@@ -64,7 +64,7 @@ class ws_etiqueta(models.Model):
 
     def obtener_tipo(self):
         servicio = self.env['servicio.tipsa']
-        servicio_tipo = servicio.search([('name', '=', '14 HORAS')])
+        servicio_tipo = servicio.search([('name', '=', 'ECONOMY')])
         return servicio_tipo
 
     opcion = fields.Many2one('tipsa.servicio', string="Opcion",default=obtener_servicio)
@@ -140,6 +140,7 @@ class ws_etiqueta(models.Model):
             'CodProDes':cod,
             'PersContacto':objres.name,
             'Paq':paquetes,
+            'peso':suma_peso,
             })
 
         return res
