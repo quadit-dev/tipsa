@@ -9,8 +9,8 @@ class envio_tipsa(models.Model):
     #Datos envio ------------ *
     name = fields.Char('Name', required=True)
     albaran = fields.Char('Albaran Tipsa', required=True)
-    agencia_ori = fields.Char('Agencia de Origen', required=True)
-    agencia_des = fields.Char('Agencia de Destino', required=True)
+    agencia_ori = fields.Char('Origen', required=True)
+    agencia_des = fields.Char('Empresa', required=True)
     dtm_envio = fields.Datetime ('Fecha envio', readonly = False)
     file = fields.Binary('Etiqueta')
     paq = fields.Char('Número de paquetes')
