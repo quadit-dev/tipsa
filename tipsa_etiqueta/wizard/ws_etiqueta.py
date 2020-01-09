@@ -195,6 +195,7 @@ class ws_etiqueta(models.Model):
         metodo = response_met.content
         # parse an xml file by na
         myxml = fromstring(metodo)
+        pdf = " "
         for element in myxml.iter():
             etiqueta = element.findtext('{http://tempuri.org/}strEtiqueta')
             if etiqueta:
