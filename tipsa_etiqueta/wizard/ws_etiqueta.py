@@ -169,7 +169,10 @@ class ws_etiqueta(models.Model):
         </soap:Envelope>"""
         response = requests.post(url, data=body, headers=headers)
         login = response.content
+        _logger.info("====== LOGIN> %r" % login)
         ID = login[368:404]
+        _logger.info("====== ID> %r" % ID)
+
         url_met = self.opcion.url_accion
         headers_met = {'content-type': 'text/xml'}
         body_met = """<?xml version="1.0" encoding="utf-8"?>
@@ -193,10 +196,10 @@ class ws_etiqueta(models.Model):
         </soap:Envelope>"""
         response_met = requests.post(url_met, data=body_met, headers=headers_met)
         metodo = response_met.content
-        _logger.info("======> %r" % metodo)
+        _logger.info("====== METODO> %r" % metodo)
         # parse an xml file by na
         myxml = fromstring(metodo)
-        _logger.info("======> %r" % myxml)
+        _logger.info("====== MYXML> %r" % myxml)
         pdf = " "
         for element in myxml.iter():
             etiqueta = element.findtext('{http://tempuri.org/}strEtiqueta')
