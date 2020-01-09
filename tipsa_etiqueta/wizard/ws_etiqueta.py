@@ -193,8 +193,10 @@ class ws_etiqueta(models.Model):
         </soap:Envelope>"""
         response_met = requests.post(url_met, data=body_met, headers=headers_met)
         metodo = response_met.content
+        _logger.info("======> %r" % metodo)
         # parse an xml file by na
         myxml = fromstring(metodo)
+        _logger.info("======> %r" % myxml)
         pdf = " "
         for element in myxml.iter():
             etiqueta = element.findtext('{http://tempuri.org/}strEtiqueta')
@@ -227,6 +229,7 @@ class ws_etiqueta(models.Model):
         _logger.info("======> %r" % body)
         _logger.info("======> %r" % login)
         ID = login[368:404]
+        _logger.info("======> %r" % ID)
         pesoString = str(self.peso)
         codigo_provincia = self.agencia_ori.zip
         codigo_provincia = codigo_provincia[0:2]
@@ -283,6 +286,7 @@ class ws_etiqueta(models.Model):
             etiqueta = element.findtext('{http://tempuri.org/}strAlbaranOut')
             if etiqueta:
                 albaran = etiqueta
+        _logger.info("======> %r" % albaran)
         return albaran
 
     @api.multi
