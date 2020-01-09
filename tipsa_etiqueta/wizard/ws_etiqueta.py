@@ -167,7 +167,6 @@ class ws_etiqueta(models.Model):
             </LoginWSService___LoginCli>
         </soap:Body>
         </soap:Envelope>"""
-
         response = requests.post(url, data=body, headers=headers)
         login = response.content
         _logger.info("====== LOGIN> %r" % login)
@@ -191,11 +190,10 @@ class ws_etiqueta(models.Model):
                 <strCodAgeOri>"""+self.opcion.agencia+"""</strCodAgeOri>
                 <strAlbaran>"""+albaran+"""</strAlbaran>
                 <intIdRepDet>"""+self.formato+"""</intIdRepDet>
-                <strFormato>"""+str(form_c)+"""</strFormato>
+                <strFormato>"""+form_c+"""</strFormato>
             </WebServService___ConsEtiquetaEnvio6>
         </soap:Body>
         </soap:Envelope>"""
-        _logger.info("====== BODY> %r" % body_met)
         response_met = requests.post(url_met, data=body_met, headers=headers_met)
         metodo = response_met.content
         _logger.info("====== METODO> %r" % metodo)
