@@ -191,7 +191,7 @@ class ws_etiqueta(models.Model):
                 <strCodAgeOri>"""+self.opcion.agencia+"""</strCodAgeOri>
                 <strAlbaran>"""+albaran+"""</strAlbaran>
                 <intIdRepDet>"""+self.formato+"""</intIdRepDet>
-                <strFormato>"""+form_c+"""</strFormato>
+                <strFormato>"""+str(form_c)+"""</strFormato>
             </WebServService___ConsEtiquetaEnvio6>
         </soap:Body>
         </soap:Envelope>"""
