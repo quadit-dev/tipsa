@@ -210,6 +210,7 @@ class ws_etiqueta(models.Model):
     def genera_envio(self):
         url = self.opcion.url_login
         file = fields.Binary('Layout')
+        albaran = " "
         headers = {'content-type': 'text/xml'}
         body = """<?xml version="1.0" encoding="utf-8"?>
         <soap:Envelope
@@ -286,7 +287,7 @@ class ws_etiqueta(models.Model):
             etiqueta = element.findtext('{http://tempuri.org/}strAlbaranOut')
             if etiqueta:
                 albaran = etiqueta
-        _logger.info("======> %r" % albaran)
+                _logger.info("======> %r" % albaran)
         return albaran
 
     @api.multi
