@@ -117,7 +117,7 @@ class ws_etiqueta(models.Model):
         picking_id = self.env['stock.picking'].browse(active_id)
         suma_peso = 0
         suma_paq = 0
-        
+
         for picking in picking_id:
             partner = self.env['stock.picking'].browse(picking.partner_id.ids)
             objres = self.env['res.partner'].search([('id','=',partner.id)])
@@ -283,6 +283,7 @@ class ws_etiqueta(models.Model):
         response_met = requests.post(url_met, data=body_met, headers=headers_met)
         metodo = response_met.content
         myxml = fromstring(metodo)
+        albaran = None
         for element in myxml.iter():
             etiqueta = element.findtext('{http://tempuri.org/}strAlbaranOut')
             if etiqueta:
