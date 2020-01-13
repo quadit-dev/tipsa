@@ -121,7 +121,7 @@ class ws_etiqueta(models.Model):
         for picking in picking_id:
             partner = self.env['stock.picking'].browse(picking.partner_id.ids)
             objres = self.env['res.partner'].search([('id','=',partner.id)])
-            #suma_peso= suma_peso + picking.weight
+            suma_peso= suma_peso + picking.weight
             _logger.info("======> %r" % suma_peso)
             cod = objres.zip
             cod = cod[0:2]
@@ -187,10 +187,10 @@ class ws_etiqueta(models.Model):
         </soap:Header>
         <soap:Body>
             <WebServService___ConsEtiquetaEnvio6>
-                <strCodAgeOri>"""+self.opcion.agencia+"""</strCodAgeOri>
-                <strAlbaran>"""+albaran+"""</strAlbaran>
-                <intIdRepDet>"""+self.formato+"""</intIdRepDet>
-                <strFormato>"""+form_c+"""</strFormato>
+                <strCodAgeOri>"""+str(self.opcion.agencia)+"""</strCodAgeOri>
+                <strAlbaran>"""+str(albaran)+"""</strAlbaran>
+                <intIdRepDet>"""+str(self.formato)+"""</intIdRepDet>
+                <strFormato>"""+str(form_c)+"""</strFormato>
             </WebServService___ConsEtiquetaEnvio6>
         </soap:Body>
         </soap:Envelope>"""
