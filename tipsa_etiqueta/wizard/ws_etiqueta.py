@@ -6,6 +6,7 @@ from openerp import _, api, fields, models
 import requests
 from requests.auth import HTTPBasicAuth  # or HTTPDigestAuth, or OAuth1, etc.
 import base64
+import decode
 from lxml import etree, objectify
 from xml.dom import minidom
 from datetime import datetime
@@ -203,7 +204,7 @@ class ws_etiqueta(models.Model):
             if etiqueta:
                 pdf = etiqueta
         final = base64.decodestring(pdf)
-
+        _logger.info("====== PDF> %r" % final)
         return final
 
     @api.multi
@@ -238,6 +239,12 @@ class ws_etiqueta(models.Model):
         split_envio_dia = split_envio[2].split(' ')
         date_envio = split_envio[0]+'/'+split_envio[1]+'/'+split_envio_dia[0]  # noqa
         url_met = self.opcion.url_accion
+        _logger.info("======> Direccion%r" % self.DirDes)
+        _logger.info("======> Nombre %r" % self.NomDes)
+        nombre = self.NomDes
+        nombre_destino = nombre.decode("utf-8")
+
+
         headers_met = {'content-type': 'text/xml'}
         body_met = """<?xml version="1.0" encoding="utf-8"?>
             <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
