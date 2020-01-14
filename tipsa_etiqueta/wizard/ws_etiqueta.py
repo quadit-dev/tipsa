@@ -5,8 +5,6 @@
 from openerp import _, api, fields, models
 import requests
 from requests.auth import HTTPBasicAuth  # or HTTPDigestAuth, or OAuth1, etc.
-from suds.transport.http import HttpAuthenticated
-from suds.client import Client
 import base64
 from lxml import etree, objectify
 from xml.dom import minidom
@@ -286,6 +284,8 @@ class ws_etiqueta(models.Model):
         response_met = requests.post(url_met, data=body_met, headers=headers_met)
         metodo = response_met.content
         myxml = fromstring(metodo)
+        _logger.info("======================================> body etiqueta ")
+        _logger.info("* %r" % myxml)
         for element in myxml.iter():
             etiqueta = element.findtext('{http://tempuri.org/}strAlbaranOut')
             if etiqueta:
