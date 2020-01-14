@@ -240,7 +240,7 @@ class ws_etiqueta(models.Model):
         url_met = self.opcion.url_accion
         _logger.info("======> Direccion %r" % self.DirDes)
         _logger.info("======> Nombre %r" % self.NomDes)
-        nombre = str(self.NomDes)
+        nombre = str(self.DirDes)
         nombre_destino = nombre.encode("utf-8")
         direccion = str(self.NomDes)
         direccion_destino = direccion.encode("utf-8")
