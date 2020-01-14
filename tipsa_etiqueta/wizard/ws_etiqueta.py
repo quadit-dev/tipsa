@@ -239,9 +239,9 @@ class ws_etiqueta(models.Model):
         split_envio_dia = split_envio[2].split(' ')
         date_envio = split_envio[0]+'/'+split_envio[1]+'/'+split_envio_dia[0]  # noqa
         url_met = self.opcion.url_accion
-        _logger.info("======> Direccion%r" % self.DirDes)
+        _logger.info("======> Direccion %r" % self.DirDes)
         _logger.info("======> Nombre %r" % self.NomDes)
-        nombre = self.NomDes
+        nombre = str(self.NomDes)
         nombre_destino = nombre.decode("utf-8")
 
 
