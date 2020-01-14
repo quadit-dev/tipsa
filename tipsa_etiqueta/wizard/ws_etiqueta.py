@@ -240,7 +240,8 @@ class ws_etiqueta(models.Model):
         url_met = self.opcion.url_accion
         _logger.info("======> Direccion %r" % self.DirDes)
         _logger.info("======> Nombre %r" % self.NomDes)
-        
+        nombre = str(self.NomDes)
+        nombre_destino = nombre.decode("utf-8")
 
 
         headers_met = {'content-type': 'text/xml'}
