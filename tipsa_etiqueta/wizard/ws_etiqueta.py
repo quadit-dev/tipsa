@@ -298,6 +298,9 @@ class ws_etiqueta(models.Model):
     def genera_envio_etiqueta(self):
         albaran = " "
         albaran = self.genera_envio()
+        if albaran == "0":
+            _logger.info("======> NO se puede generar%r" % albaran)
+            break
         pdf = self.genera_etiqueta(albaran)
         self.write({
             'file': base64.b64encode(pdf),
