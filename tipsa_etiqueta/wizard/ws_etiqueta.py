@@ -241,11 +241,11 @@ class ws_etiqueta(models.Model):
         _logger.info("======> Direccion %r" % self.DirDes)
         _logger.info("======> Nombre %r" % self.NomDes)
         nombre = str(self.NomDes)
-        nombre_destino = nombre.decode('utf-8')
+        nombre_destino = nombre.decode('latin-1')
         direccion = str(self.DirDes)
-        direccion_destino = direccion.decode('utf-8')
-        _logger.info("======> Direccion %r" % direccion_destino)
-        _logger.info("======> Nombre %r" % nombre_destino)
+        direccion_destino = direccion.decode('latin-1')
+        _logger.info("======> Direccioooon %r" % direccion_destino)
+        _logger.info("======> Nombreeee %r" % nombre_destino)
 
 
         headers_met = {'content-type': 'text/xml'}
