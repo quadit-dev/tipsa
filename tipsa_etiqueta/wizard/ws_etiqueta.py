@@ -241,9 +241,9 @@ class ws_etiqueta(models.Model):
         _logger.info("======> Direccion %r" % self.DirDes)
         _logger.info("======> Nombre %r" % self.NomDes)
         nombre = self.NomDes
-        nombre_destino = nombre.decode('latin-1')
+        nombre_destino = nombre.decode('utf-8')
         direccion = self.DirDes
-        direccion_destino = direccion.decode('latin-1')
+        direccion_destino = direccion.decode('utf-8')
         _logger.info("======> Direccioooon %r" % direccion_destino)
         _logger.info("======> Nombreeee %r" % nombre_destino)
 
