@@ -249,8 +249,8 @@ class ws_etiqueta(models.Model):
 
         _logger.info("======> Direccioooon %r" % direccion_destino)
         _logger.info("======> Nombreeee %r" % nombre_destino)
-        _logger.info("======> NOMBRE %r" % a)
-        _logger.info("======> DIRECCION %r" % b)
+        _logger.info("======> NOMBRE %r" % str(a))
+        _logger.info("======> DIRECCION %r" % str(b))
 
 
         headers_met = {'content-type': 'text/xml'}
@@ -277,16 +277,16 @@ class ws_etiqueta(models.Model):
                         <strCPOri>"""+str(self.agencia_ori.zip)+"""</strCPOri>
                         <strCodProOri>"""+codigo_provincia+"""</strCodProOri>
                         <strTlfOri>"""+str(self.agencia_ori.phone)+"""</strTlfOri>
-                        <strNomDes>"""+str(self.NomDes)+"""</strNomDes>
+                        <strNomDes>"""+str(a)+"""</strNomDes>
                         <strTipoViaDes>"""+str(self.TipoViaDes)+"""</strTipoViaDes>
-                        <strDirDes>"""+str(self.DirDes)+"""</strDirDes>
+                        <strDirDes>"""+str(b)+"""</strDirDes>
                         <strPobDes>"""+str(self.PobDes)+"""</strPobDes>
                         <strCPDes>"""+str(self.CPDes)+"""</strCPDes>
                         <strCodProDes>"""+str(self.CodProDes)+"""</strCodProDes>
                         <strTlfDes>"""+str(self.TlfDes)+"""</strTlfDes>
                         <intPaq>"""+str(self.Paq)+"""</intPaq>
                         <dPesoOri>"""+pesoString+"""</dPesoOri>
-                        <strPersContacto>"""+str(self.PersContacto)+"""</strPersContacto>
+                        <strPersContacto>"""+str(a)+"""</strPersContacto>
                         <boDesSMS>0</boDesSMS>
                         <boDesEmail>1</boDesEmail>
                         <strDesDirEmails>"""+str(self.EmailDes)+"""</strDesDirEmails>
