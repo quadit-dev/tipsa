@@ -285,6 +285,8 @@ class ws_etiqueta(models.Model):
         metodo = response_met.content
         myxml = fromstring(metodo)
         _logger.info("======================================> body etiqueta ")
+        _logger.info("* %r" % metodo)
+        _logger.info("======================================> body etiqueta ")
         _logger.info("* %r" % myxml)
         for element in myxml.iter():
             etiqueta = element.findtext('{http://tempuri.org/}strAlbaranOut')
