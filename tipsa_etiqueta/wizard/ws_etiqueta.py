@@ -243,7 +243,7 @@ class ws_etiqueta(models.Model):
         nombre = str(self.NomDes)
         nombre_destino = nombre.decode("utf-8")
         direccion = str(self.NomDes)
-        direccion_destino = nombre.decode("utf-8")
+        direccion_destino = direccion.decode("utf-8")
         _logger.info("======> Direccion %r" % direccion_destino)
         _logger.info("======> Nombre %r" % nombre_destino)
 
