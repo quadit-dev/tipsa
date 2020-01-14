@@ -244,8 +244,8 @@ class ws_etiqueta(models.Model):
         nombre_destino = nombre.decode("unicode_escape")
         direccion = self.DirDes
         direccion_destino = direccion.decode("unicode_escape")
-        a = nombre_destino.encode("utf-8")
-        b = direccion_destino.encode("utf-8")
+        a = nombre_destino.decode("utf-8")
+        b = direccion_destino.decode("utf-8")
 
         _logger.info("======> Direccioooon %r" % str(direccion_destino))
         _logger.info("======> Nombreeee %r" % str(nombre_destino))
