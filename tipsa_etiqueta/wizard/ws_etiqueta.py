@@ -6,7 +6,6 @@ from openerp import _, api, fields, models
 import requests
 from requests.auth import HTTPBasicAuth  # or HTTPDigestAuth, or OAuth1, etc.
 import base64
-import decode
 from lxml import etree, objectify
 from xml.dom import minidom
 from datetime import datetime
@@ -241,8 +240,7 @@ class ws_etiqueta(models.Model):
         url_met = self.opcion.url_accion
         _logger.info("======> Direccion %r" % self.DirDes)
         _logger.info("======> Nombre %r" % self.NomDes)
-        nombre = str(self.NomDes)
-        nombre_destino = nombre.decode("utf-8")
+        
 
 
         headers_met = {'content-type': 'text/xml'}
