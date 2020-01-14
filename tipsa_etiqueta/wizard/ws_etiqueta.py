@@ -84,7 +84,6 @@ class ws_etiqueta(models.Model):
     CPDes = fields.Char('Código postal',required=True)
     TlfDes = fields.Char('Telefono',required=True)
     CodProDes = fields.Char('Código provincial',required=True)
-    CodDes = fields.Char('Código Destino',required=True)
     EmailDes = fields.Char('Email Destino',required=True)
     TipoViaDes = fields.Selection([
         ('C', 'Calle'),
