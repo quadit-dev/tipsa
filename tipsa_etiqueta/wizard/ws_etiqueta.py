@@ -213,7 +213,7 @@ class ws_etiqueta(models.Model):
     def genera_envio(self):
         url = self.opcion.url_login
         file = fields.Binary('Layout')
-        albaran = " "
+        albaran = "0"
         headers = {'content-type': 'text/xml'}
         body = """<?xml version="1.0" encoding="utf-8"?>
         <soap:Envelope
@@ -282,11 +282,11 @@ class ws_etiqueta(models.Model):
                      </WebServService___GrabaEnvio18>
                     </soap:Body>
             </soap:Envelope>"""
-        _logger.info("======> %r" % body_met)
+        _logger.info("======================================> body etiqueta ")
+        _logger.info("* %r" % body_met)
         response_met = requests.post(url_met, data=body_met, headers=headers_met)
         metodo = response_met.content
         myxml = fromstring(metodo)
-        albaran = None
         for element in myxml.iter():
             etiqueta = element.findtext('{http://tempuri.org/}strAlbaranOut')
             if etiqueta:
