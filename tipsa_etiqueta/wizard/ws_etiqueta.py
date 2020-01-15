@@ -287,7 +287,7 @@ class ws_etiqueta(models.Model):
                         <strTlfOri>"""+str(self.agencia_ori.phone)+"""</strTlfOri>
                         <strNomDes>"""+str(nombre)+"""</strNomDes>
                         <strTipoViaDes>"""+str(self.TipoViaDes)+"""</strTipoViaDes>
-                        <strDirDes>"""+str(direccion_destino)+"""</strDirDes>
+                        <strDirDes>"""+str(direccion)+"""</strDirDes>
                         <strPobDes>"""+str(self.PobDes)+"""</strPobDes>
                         <strCPDes>"""+str(self.CPDes)+"""</strCPDes>
                         <strCodProDes>"""+str(self.CodProDes)+"""</strCodProDes>
@@ -304,7 +304,7 @@ class ws_etiqueta(models.Model):
             </soap:Envelope>"""
         _logger.info("======================================> body etiqueta ")
         _logger.info("* %r" % body_met)
-        response_met = requests.post(url_met, data=body_met, headers=headers_met)
+        response_met = requests.post(url_met, data=body_met.encode('utf-8'), headers=headers_met)
         metodo = response_met.content
         myxml = fromstring(metodo)
         _logger.info("======================================> body etiqueta ")
