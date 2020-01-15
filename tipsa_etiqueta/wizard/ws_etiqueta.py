@@ -318,6 +318,8 @@ class ws_etiqueta(models.Model):
     @api.multi
     def genera_envio_etiqueta(self):
         albaran = " "
+        if albaran == "0":
+            raise Warning("No se puede generar el envio contacte al administrador")
         albaran = self.genera_envio()
         
         pdf = self.genera_etiqueta(albaran)
