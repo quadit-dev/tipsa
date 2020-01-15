@@ -9,7 +9,7 @@ import base64
 from lxml import etree, objectify
 from xml.dom import minidom
 from datetime import datetime
-from openerp.exceptions import UserError, ValidationError
+from openerp.exceptions import UserError, ValidationError, Warning
 from xml.etree.ElementTree import XML, fromstring, tostring, parse
 import logging
 
@@ -250,12 +250,16 @@ class ws_etiqueta(models.Model):
         _logger.info("======> Nombre escape %r" % nombre_destino)
         _logger.info("======> Direccion escape %r" % type(direccion_destino))
         _logger.info("======> Nombre escape %r" % type(nombre_destino))
-        a = nombre_destino.decode("utf-8")
-        b = direccion_destino.decode("utf-8")
+        a = nombre_destino.encode("utf-8")
+        b = direccion_destino.encode("utf-8")
         _logger.info("======> Nombre utf-8 %r" % a)
         _logger.info("======> Direccion utf-8 %r" % b)
         _logger.info("======> Nombre utf-8 %r" % type(a))
         _logger.info("======> Direccion utf %r" % type(b))
+
+        if True:
+            raise Warning('ERROR :c')
+
 
         headers_met = {'content-type': 'text/xml'}
         body_met = """<?xml version="1.0" encoding="utf-8"?>
