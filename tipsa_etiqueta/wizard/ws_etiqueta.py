@@ -238,20 +238,24 @@ class ws_etiqueta(models.Model):
         split_envio_dia = split_envio[2].split(' ')
         date_envio = split_envio[0]+'/'+split_envio[1]+'/'+split_envio_dia[0]  # noqa
         url_met = self.opcion.url_accion
-        _logger.info("======> Direccion %r" % self.DirDes)
-        _logger.info("======> Nombre %r" % self.NomDes)
+        _logger.info("======> Direccion antes %r" % self.DirDes)
+        _logger.info("======> Nombre antes%r" % self.NomDes)
+        _logger.info("======> Direccion %r" % type(self.DirDes))
+        _logger.info("======> Nombre %r" % type(self.NomDes))
         nombre = self.NomDes
         nombre_destino = nombre.decode("unicode_escape")
         direccion = self.DirDes
         direccion_destino = direccion.decode("unicode_escape")
+        _logger.info("======> Direccion escape %r" % direccion_destino)
+        _logger.info("======> Nombre escape %r" % nombre_destino)
+        _logger.info("======> Direccion escape %r" % type(direccion_destino))
+        _logger.info("======> Nombre escape %r" % type(nombre_destino))
         a = nombre_destino.decode("utf-8")
         b = direccion_destino.decode("utf-8")
-
-        _logger.info("======> Direccioooon %r" % str(direccion_destino))
-        _logger.info("======> Nombreeee %r" % str(nombre_destino))
-        _logger.info("======> NOMBRE %r" % str(a))
-        _logger.info("======> DIRECCION %r" % str(b))
-
+        _logger.info("======> Nombre utf-8 %r" % a)
+        _logger.info("======> Direccion utf-8 %r" % b)
+        _logger.info("======> Nombre utf-8 %r" % type(a))
+        _logger.info("======> Direccion utf %r" % type(b))
 
         headers_met = {'content-type': 'text/xml'}
         body_met = """<?xml version="1.0" encoding="utf-8"?>
