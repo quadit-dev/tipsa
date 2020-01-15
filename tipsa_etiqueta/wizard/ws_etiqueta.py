@@ -257,9 +257,6 @@ class ws_etiqueta(models.Model):
         _logger.info("======> Nombre utf-8 %r" % type(a))
         _logger.info("======> Direccion utf %r" % type(b))
 
-        if True:
-            raise Warning('ERROR :c')
-
 
         headers_met = {'content-type': 'text/xml'}
         body_met = """<?xml version="1.0" encoding="utf-8"?>
