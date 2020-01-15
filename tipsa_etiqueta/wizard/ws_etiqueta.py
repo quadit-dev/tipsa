@@ -277,16 +277,16 @@ class ws_etiqueta(models.Model):
                         <strCPOri>"""+str(self.agencia_ori.zip)+"""</strCPOri>
                         <strCodProOri>"""+codigo_provincia+"""</strCodProOri>
                         <strTlfOri>"""+str(self.agencia_ori.phone)+"""</strTlfOri>
-                        <strNomDes>"""+str(a)+"""</strNomDes>
+                        <strNomDes>"""+str(nombre)+"""</strNomDes>
                         <strTipoViaDes>"""+str(self.TipoViaDes)+"""</strTipoViaDes>
-                        <strDirDes>"""+str(b)+"""</strDirDes>
+                        <strDirDes>"""+str(direccion_destino)+"""</strDirDes>
                         <strPobDes>"""+str(self.PobDes)+"""</strPobDes>
                         <strCPDes>"""+str(self.CPDes)+"""</strCPDes>
                         <strCodProDes>"""+str(self.CodProDes)+"""</strCodProDes>
                         <strTlfDes>"""+str(self.TlfDes)+"""</strTlfDes>
                         <intPaq>"""+str(self.Paq)+"""</intPaq>
                         <dPesoOri>"""+pesoString+"""</dPesoOri>
-                        <strPersContacto>"""+str(a)+"""</strPersContacto>
+                        <strPersContacto>"""+str(nombre)+"""</strPersContacto>
                         <boDesSMS>0</boDesSMS>
                         <boDesEmail>1</boDesEmail>
                         <strDesDirEmails>"""+str(self.EmailDes)+"""</strDesDirEmails>
