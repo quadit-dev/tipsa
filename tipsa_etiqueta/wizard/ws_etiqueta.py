@@ -164,7 +164,7 @@ class ws_etiqueta(models.Model):
             </LoginWSService___LoginCli>
         </soap:Body>
         </soap:Envelope>"""
-        response = requests.post(url, data=body, headers=headers)
+        response = requests.post(url, data=body.encode('utf-8'), headers=headers)
         login = response.content
         _logger.info("====== LOGIN> %r" % login)
         ID = login[368:404]
@@ -191,7 +191,7 @@ class ws_etiqueta(models.Model):
             </WebServService___ConsEtiquetaEnvio6>
         </soap:Body>
         </soap:Envelope>"""
-        response_met = requests.post(url_met, data=body_met, headers=headers_met)
+        response_met = requests.post(url_met, data=body_met.encode('utf-8'), headers=headers_met)
         metodo = response_met.content
         _logger.info("====== METODO> %r" % metodo)
         # parse an xml file by na
@@ -225,7 +225,7 @@ class ws_etiqueta(models.Model):
             </LoginWSService___LoginCli>
         </soap:Body>
         </soap:Envelope>"""
-        response = requests.post(url, data=body, headers=headers)
+        response = requests.post(url, data=body.encode('utf-8'), headers=headers)
         login = response.content
         _logger.info("======> %r" % body)
         _logger.info("======> %r" % login)
@@ -257,6 +257,9 @@ class ws_etiqueta(models.Model):
         _logger.info("======> Nombre utf-8 %r" % type(a))
         _logger.info("======> Direccion utf %r" % type(b))
 
+        if True:
+            raise Warning('ERROR :c')
+
 
         headers_met = {'content-type': 'text/xml'}
         body_met = """<?xml version="1.0" encoding="utf-8"?>
@@ -282,16 +285,16 @@ class ws_etiqueta(models.Model):
                         <strCPOri>"""+str(self.agencia_ori.zip)+"""</strCPOri>
                         <strCodProOri>"""+codigo_provincia+"""</strCodProOri>
                         <strTlfOri>"""+str(self.agencia_ori.phone)+"""</strTlfOri>
-                        <strNomDes>"""+str(nombre)+"""</strNomDes>
+                        <strNomDes>"""+str(self.NomDes)+"""</strNomDes>
                         <strTipoViaDes>"""+str(self.TipoViaDes)+"""</strTipoViaDes>
-                        <strDirDes>"""+str(direccion)+"""</strDirDes>
+                        <strDirDes>"""+str(self.DirDes)+"""</strDirDes>
                         <strPobDes>"""+str(self.PobDes)+"""</strPobDes>
                         <strCPDes>"""+str(self.CPDes)+"""</strCPDes>
                         <strCodProDes>"""+str(self.CodProDes)+"""</strCodProDes>
                         <strTlfDes>"""+str(self.TlfDes)+"""</strTlfDes>
                         <intPaq>"""+str(self.Paq)+"""</intPaq>
                         <dPesoOri>"""+pesoString+"""</dPesoOri>
-                        <strPersContacto>"""+str(nombre)+"""</strPersContacto>
+                        <strPersContacto>"""+str(self.NomDes)+"""</strPersContacto>
                         <boDesSMS>0</boDesSMS>
                         <boDesEmail>1</boDesEmail>
                         <strDesDirEmails>"""+str(self.EmailDes)+"""</strDesDirEmails>
