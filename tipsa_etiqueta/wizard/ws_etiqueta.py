@@ -167,8 +167,8 @@ class ws_etiqueta(models.Model):
         </soap:Envelope>"""
         try:
             response = requests.post(url, data=body.encode('utf-8'), headers=headers)
-        except Exception as response:
-            raise Warning (_('No se puede conectar con el servicio de TIPSA %r' % response))
+        except Exception as e:
+            raise Warning (_('No se puede conectar con el servicio de TIPSA %r' % e))
      
         login = response.content
         _logger.info("====== LOGIN> %r" % login)
@@ -198,8 +198,8 @@ class ws_etiqueta(models.Model):
         </soap:Envelope>"""
         try:
             response_met = requests.post(url_met, data=body_met.encode('utf-8'), headers=headers_met)
-        except Exception as response_met:
-            raise Warning (_('No se puede conectar con el servicio de TIPSA %r' % response_met))
+        except Exception as e:
+            raise Warning (_('No se puede conectar con el servicio de TIPSA %r' % e))
      
         
         metodo = response_met.content
@@ -238,9 +238,9 @@ class ws_etiqueta(models.Model):
         </soap:Envelope>"""
         try:
             response = requests.post(url, data=body.encode('utf-8'), headers=headers)
-        except Exception as response: 
-            response = response.tostring(et, encoding='utf8', method='xml')
-            raise Warning (_('No se puede conectar con el servicio de TIPSA %r' % response))
+        except Exception as e: 
+            e = e.tostring(et, encoding='utf8', method='xml')
+            raise Warning (_('No se puede conectar con el servicio de TIPSA %r' % e))
      
         login = response.content
         _logger.info("======> %r" % body)
@@ -319,8 +319,8 @@ class ws_etiqueta(models.Model):
         _logger.info("* %r" % body_met)
         try:
             response_met = requests.post(url_met, data=body_met.encode('utf-8'), headers=headers_met)
-        except Exception as response_met:
-            raise Warning (_('No se puede conectar con el servicio de TIPSA %r' % response_met))
+        except Exception as e:
+            raise Warning (_('No se puede conectar con el servicio de TIPSA %r' % e))
      
         metodo = response_met.content
         myxml = fromstring(metodo)
