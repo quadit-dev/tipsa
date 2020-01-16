@@ -318,21 +318,21 @@ class ws_etiqueta(models.Model):
         _logger.info("* %r" % body_met)
         try:
             response_met = requests.post(url_met, data=body_met.encode('utf-8'), headers=headers_met)
+            metodo = response_met.content
+            myxml = fromstring(metodo)
+            _logger.info("======================================> body etiqueta ")
+            _logger.info("* %r" % metodo)
+            _logger.info("======================================> body etiqueta ")
+            _logger.info("* %r" % myxml)
+            for element in myxml.iter():
+                etiqueta = element.findtext('{http://tempuri.org/}strAlbaranOut')
+                if etiqueta:
+                    albaran = etiqueta
+                    _logger.info("======> %r" % albaran)
+            return albaran
         except Exception as e:
             raise Warning (_('No se puede conectar con el servicio de TIPSA %r' % e))
      
-        metodo = response_met.content
-        myxml = fromstring(metodo)
-        _logger.info("======================================> body etiqueta ")
-        _logger.info("* %r" % metodo)
-        _logger.info("======================================> body etiqueta ")
-        _logger.info("* %r" % myxml)
-        for element in myxml.iter():
-            etiqueta = element.findtext('{http://tempuri.org/}strAlbaranOut')
-            if etiqueta:
-                albaran = etiqueta
-                _logger.info("======> %r" % albaran)
-        return albaran
 
     @api.multi
     def genera_envio_etiqueta(self):
