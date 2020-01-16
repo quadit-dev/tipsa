@@ -238,8 +238,9 @@ class ws_etiqueta(models.Model):
         </soap:Envelope>"""
         try:
             response = requests.post(url, data=body.encode('utf-8'), headers=headers)
-        except Exception as response:
-            raise Warning (_('No se puede conectar con el servicio de TIPSA %r' % response.tostring(et, encoding='utf8', method='xml')))
+        except Exception as response: 
+            response = response.tostring(et, encoding='utf8', method='xml')
+            raise Warning (_('No se puede conectar con el servicio de TIPSA %r' % response))
      
         login = response.content
         _logger.info("======> %r" % body)
