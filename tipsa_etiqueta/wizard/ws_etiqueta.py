@@ -165,7 +165,11 @@ class ws_etiqueta(models.Model):
             </LoginWSService___LoginCli>
         </soap:Body>
         </soap:Envelope>"""
-        response = requests.post(url, data=body.encode('utf-8'), headers=headers)
+        try:
+            response = requests.post(url, data=body.encode('utf-8'), headers=headers)
+        except Exception as response:
+            raise Warning (_('No se puede conectar con el servicio de TIPSA %r' % response))
+     
         login = response.content
         _logger.info("====== LOGIN> %r" % login)
         ID = login[368:404]
@@ -192,7 +196,12 @@ class ws_etiqueta(models.Model):
             </WebServService___ConsEtiquetaEnvio6>
         </soap:Body>
         </soap:Envelope>"""
-        response_met = requests.post(url_met, data=body_met.encode('utf-8'), headers=headers_met)
+        try:
+            response_met = requests.post(url_met, data=body_met.encode('utf-8'), headers=headers_met)
+        except Exception as response_met:
+            raise Warning (_('No se puede conectar con el servicio de TIPSA %r' % response_met))
+     
+        
         metodo = response_met.content
         _logger.info("====== METODO> %r" % metodo)
         # parse an xml file by na
@@ -229,8 +238,8 @@ class ws_etiqueta(models.Model):
         </soap:Envelope>"""
         try:
             response = requests.post(url, data=body.encode('utf-8'), headers=headers)
-        except Exception as e:
-            raise Warning (_('No se puede conectar con el servicio de TIPSA %r' % e))
+        except Exception as response:
+            raise Warning (_('No se puede conectar con el servicio de TIPSA %r' % response))
      
         login = response.content
         _logger.info("======> %r" % body)
@@ -307,7 +316,11 @@ class ws_etiqueta(models.Model):
             </soap:Envelope>"""
         _logger.info("======================================> body etiqueta ")
         _logger.info("* %r" % body_met)
-        response_met = requests.post(url_met, data=body_met.encode('utf-8'), headers=headers_met)
+        try:
+            response_met = requests.post(url_met, data=body_met.encode('utf-8'), headers=headers_met)
+        except Exception as response_met:
+            raise Warning (_('No se puede conectar con el servicio de TIPSA %r' % response_met))
+     
         metodo = response_met.content
         myxml = fromstring(metodo)
         _logger.info("======================================> body etiqueta ")
