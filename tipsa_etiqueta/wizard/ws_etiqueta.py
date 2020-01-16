@@ -142,6 +142,7 @@ class ws_etiqueta(models.Model):
 
         return res
 
+    #Genera una etiqueta por medio del servicio web de la empresa TIPSA
     @api.multi
     def genera_etiqueta(self, albaran):
         if self.formato == '233':
@@ -206,6 +207,7 @@ class ws_etiqueta(models.Model):
         _logger.info("====== PDF> %r" % final)
         return final
 
+    #Genera un envio por medio del servicio web de la emprsa TIPSA
     @api.multi
     def genera_envio(self):
         url = self.opcion.url_login
@@ -225,7 +227,11 @@ class ws_etiqueta(models.Model):
             </LoginWSService___LoginCli>
         </soap:Body>
         </soap:Envelope>"""
-        response = requests.post(url, data=body.encode('utf-8'), headers=headers)
+        try:
+            response = requests.post(url, data=body.encode('utf-8'), headers=headers)
+        except Exception as e:
+            raise Warning _('No se puede conectar con el servicio de TIPSA %r' % e)
+     
         login = response.content
         _logger.info("======> %r" % body)
         _logger.info("======> %r" % login)
