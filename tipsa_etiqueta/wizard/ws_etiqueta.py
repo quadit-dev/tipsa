@@ -203,17 +203,17 @@ class ws_etiqueta(models.Model):
      
         
         metodo = response_met.content
-        _logger.info("====== METODO> %r" % metodo)
+        _logger.debug("====== METODO> %r" % metodo)
         # parse an xml file by na
         myxml = fromstring(metodo)
-        _logger.info("====== MYXML> %r" % myxml)
+        _logger.debug("====== MYXML> %r" % myxml)
         pdf = " "
         for element in myxml.iter():
             etiqueta = element.findtext('{http://tempuri.org/}strEtiqueta')
             if etiqueta:
                 pdf = etiqueta
         final = base64.decodestring(pdf)
-        _logger.info("====== PDF> %r" % final)
+        _logger.debug("====== PDF> %r" % final)
         return final
 
     #Genera un envio por medio del servicio web de la emprsa TIPSA
