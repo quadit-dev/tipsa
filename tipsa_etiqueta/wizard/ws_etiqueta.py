@@ -345,6 +345,10 @@ class ws_etiqueta(models.Model):
         myxml = fromstring(metodo)
         _logger.info("======================================> body etiqueta ")
         _logger.info("* %r" % metodo)
+        split_metodo = metodo.split('<faultstring>')
+        split_metodo_message = split_metodo[0].split('</faultstring>')
+        if split_metodo:
+            raise Warning(split_metodo_message)
         _logger.info("======================================> body etiqueta ")
         _logger.info("* %r" % myxml)
         for element in myxml.iter():
