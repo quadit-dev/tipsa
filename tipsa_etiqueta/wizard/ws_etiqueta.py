@@ -346,7 +346,7 @@ class ws_etiqueta(models.Model):
         _logger.info("======================================> body etiqueta ")
         _logger.info("* %r" % metodo)
         split_metodo = metodo.split('<faultstring>')
-        split_metodo_message = split_metodo[0].split('</faultstring>')
+        split_metodo_message = split_metodo[1].split('</faultstring>')
         if split_metodo:
             raise Warning(split_metodo_message)
         _logger.info("======================================> body etiqueta ")
