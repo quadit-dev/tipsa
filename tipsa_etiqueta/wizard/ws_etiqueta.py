@@ -123,9 +123,9 @@ class ws_etiqueta(models.Model):
             cod = objres.zip
             cod = cod[0:2]
             paquetes = "1"
-            if picking.state_env == 'posted':
-                raise ValidationError(
-                    _('[-] No se puede crear etiqueta. Envio y Etiqueta realizados'))
+            #if picking.state_env == 'posted':
+                #raise ValidationError(
+                 #   _('[-] No se puede crear etiqueta. Envio y Etiqueta realizados'))
         res.update({
             'name_env': picking.name,
             'NomDes':objres.name,
@@ -167,9 +167,16 @@ class ws_etiqueta(models.Model):
         </soap:Envelope>"""
         try:
             response = requests.post(url, data=body.encode('utf-8'), headers=headers)
+            _logger.info("==== Response> %r" % response)
+            _logger.info("==== Reason> %r" % response.reason)
+            _logger.info("==== Status> %r" % response.status_code)
+            #_logger.info("==== Content> %r" % response.content)
+            if response.status_code == 200:
+                _logger.info("==== Status> %r" % response.status_code)
+            else:
+                raise Warning (_('No se puede conectar con el servicio de TIPSA'))    
         except Exception as e:
             raise Warning (_('No se puede conectar con el servicio de TIPSA %r' % e))
-     
         login = response.content
         _logger.info("====== LOGIN> %r" % login)
         ID = login[368:404]
